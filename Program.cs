@@ -1,3 +1,6 @@
+using Asp.NetProject.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,9 +13,8 @@ var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("CS");
 
 // Add your database context with the retrieved connection string
-// Example using Entity Framework Core:
-// builder.Services.AddDbContext<YourDbContext>(options =>
-//     options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<PosContext>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
