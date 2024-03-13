@@ -1,0 +1,12 @@
+﻿// Scaffold Command
+Scaffold-DbContext "Server=THETATEAM12\SQLEXPRESS01;Database=POS;Trusted_Connection=True; User ID=sa; Password=admin;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force
+
+
+Scaffold-DbContext "Server=ZAIGEE\SQLEXPRESS;Database=POS;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force
+
+
+// Dependency Injection Steps
+1. scaffold (Modeling)
+2. appseetting.json (Set Connection String)
+3. starpup configuration (Configure db)
+4. dependency injection (create db context in constructor)
