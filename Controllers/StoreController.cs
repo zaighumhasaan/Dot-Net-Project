@@ -17,7 +17,7 @@ namespace Asp.NetProject.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return View(_dbcontext.Stores.ToList());
         }
 
         #region item Management 
