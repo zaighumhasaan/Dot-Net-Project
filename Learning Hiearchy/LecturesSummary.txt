@@ -1,0 +1,176 @@
+﻿Lecture-1-Summary  (15 OCT 2021)
+•	Web Concept
+•	Front End and Backend development Concepts
+•	Client-Side vs Server Side 
+•	Business logic and implementation
+•	Application structure and real time working
+•	MVC
+•	HTTP Request and HTTP Response
+•	Get and Post Request
+•	Visual Studio Installation step discussion and components selection
+--------------------------------------------------
+--------------------------------------------------
+Lecture-2-Summary  (16 OCT 2021)
+•	Development Models
+•	MVC (Flow Chart Discussion)
+•	MVC framework architecture
+Models: business logic, validation logic, and database access logic
+Views: This part of the MVC application is also called Presentation Layer because it physically represents data and other information to the user. The View component of MVC application represents the user interface and it contains all the user interactions.
+Controllers: The Controller component of MVC works between the Model and the View components and it is responsible for controlling the application logic and flow of the application execution. The Controller handles any incoming URL request. When we send a request to MVC application, a controller handles our request and returns a response to that request
+Action Method: The MVC application contains one or more Controllers and each Controller in MVC is a class that contains different methods. The methods of a Controller are called action methods. Each action method returns action result
+•	Create 1st app
+•	MVC App folders detail
+•	Appsetting = web.config
+•	Apsetting.json
+•	Program.cs
+Program.cs file contains the main method which is the entry point for the application. It will create a web host builder and configure the services defined in Startup.cs file.
+•	Wwwroot
+•	Startup.cs
+--------------------------------------------------
+--------------------------------------------------
+Lecture-3-Summary  (22 OCT 2021)
+•	Solution explorer and team explorer
+•	Debug and release mode difference
+•	URL Decoding
+•	Request to Response flow
+•	Learn to set default browser of application
+•	Set default page of application
+•	Discuss link between browser, controller, ActionResult and view
+•	Discuss iActionResult
+•	Create controller and view
+•	Server to view data sending (ViewBag)
+•	Discuss input fields attributes
+•	Bootstrap Overview
+--------------------------------------------------
+--------------------------------------------------
+Lecture-4-Summary  (23 OCT 2021)
+RAIN…...
+--------------------------------------------------
+--------------------------------------------------
+Lecture-5-Summary  (29 OCT 2021)
+•	GitHub Discussion
+•	Create GitHub Account
+•	Application integration with GitHub
+•	Repository discussion
+•	Visual Studio Git Menu
+•	Branches Management
+•	Commit
+•	Stage
+•	Push
+•	Work in different branches
+•	Merge multiple branches
+•	Code merging into one branch
+--------------------------------------------------
+--------------------------------------------------
+Lecture-6-Summary  (30 OCT 2021)
+•	Discussion about master page and child page
+•	Render body
+•	Viewstart page
+•	Layout handling
+•	Html tags
+•	CSS 
+•	CSS implementation
+•	Git  fetch and merge
+--------------------------------------------------
+--------------------------------------------------
+Lecture-7-Summary  (05 NOV 2021)
+•	ViewBag Scope
+•	ViewBag to multiple view scenario
+•	Models / Classes
+•	Class Structure
+•	Class Properties
+--------------------------------------------------
+--------------------------------------------------
+Lecture-8-Summary  (06 NOV 2021)
+•	Object
+•	Multiple Object
+•	Render Object in View
+•	Layout
+•	Section Script
+•	Bootstrap Detailed Overview
+--------------------------------------------------
+--------------------------------------------------
+Lecture-9-Summary  (13 NOV 2021)
+•	IList
+•	Add object in IList
+•	IList to ViewBag
+•	ViewBag to IList
+•	IList Count
+•	IList Sorting
+•	Foreach
+•	Bootstrap Table
+--------------------------------------------------
+--------------------------------------------------
+Lecture-10-Summary  (14 NOV 2021)
+•	IList
+•	Add object in IList
+•	IList to ViewBag
+•	ViewBag to IList
+•	IList Count
+•	IList Sorting
+•	Foreach
+•	Bootstrap Table
+--------------------------------------------------
+--------------------------------------------------
+Lecture-11-Summary  (20 NOV 2021)
+•	Return redirect
+•	TempData
+•	SQL SERVER in Detail
+•	Create database
+•	Create tables
+•	Set primary key
+•	Datatype's purpose and use
+--------------------------------------------------
+--------------------------------------------------
+Lecture-12-Summary  (21 NOV 2021)
+•	Model binding
+•	Difference between model and Model
+•	Single object model binding
+•	Multiple objects model binding
+•	Dependency injection review
+•	Scaffold command
+--------------------------------------------------
+--------------------------------------------------
+Lecture-13-Summary  (26 NOV 2021)
+•	Assessment
+--------------------------------------------------
+--------------------------------------------------
+Lecture-14-Summary  (27 NOV 2021)
+•	Db Configuration
+•	Dependency injection 4 steps
+•	Create record
+•	List Records
+--------------------------------------------------
+--------------------------------------------------
+Lecture-15-Summary  (03 DEC 2021)
+•	Detail View
+•	Edit View
+•	Sections and Javascript Overview
+
+Lecture-16-Summary  (10 DEC 2021)
+•	off
+
+Lecture-17-Summary  (11 DEC 2021)
+•	Joins
+•	Linq
+
+Lecture-18-Summary  (17 DEC 2021)
+•	Select List
+•	Dropdown
+•	Select2 Library
+•	Direct Join in Detail
+•	Left Join in Detail
+
+Lecture-19-Summary  (24 DEC 2021)
+•	Sale / Sale Line table
+•	add more / append
+•	jquery functions
+
+Lecture-20-Summary  (25 DEC 2021)
+•	JSON
+•	Serialize / Descerializa
+•	Sale Flow
+
+
+
+
