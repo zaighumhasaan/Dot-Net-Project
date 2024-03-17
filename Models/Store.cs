@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Asp.NetProject.Models;
 
@@ -25,7 +26,7 @@ public partial class Store
 
     public string? OpeningHours { get; set; }
 
-    public byte[]? Logo { get; set; }
+//    public byte[]? Logo { get; set; }
 
     public int? OwnerId { get; set; }
 
@@ -40,4 +41,7 @@ public partial class Store
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
     public virtual Owner? Owner { get; set; }
+    [NotMapped]
+    public IFormFile? LogoFile { get; set; }//ImageFile
+    public String? Logo { get; set; }//Image
 }
