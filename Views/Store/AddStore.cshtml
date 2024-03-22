@@ -4,68 +4,80 @@
     ViewData["Title"] = "AddStore";
 }
 
-<h1>AddStore</h1>
-
-<h4>Store</h4>
+<h1 class="text-center bg-gradient-gray-dark">Create Store</h1>
 <hr />
+@if (ViewBag.SMessage != null)
+{
+    <div class="alert alert-success ">@ViewBag.SMessage</div>
+}
+else if (ViewBag.EMessage != null)
+{
+    <div class="alert alert-warning">@ViewBag.EMessage</div>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddStore" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="StoreName" class="control-label"></label>
-                <input asp-for="StoreName" class="form-control" />
+                <input asp-for="StoreName" class="form-control" required="required" />
                 <span asp-validation-for="StoreName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" class="form-control" required="required" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
+                <input asp-for="Location" class="form-control" required="required" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
+                <input asp-for="City" class="form-control" required="required" />
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
+
+            <<div class="form-group">
+                <label asp-for="Country">Country:</label>
+                <select id="country" asp-for="Country" name="country" class="form-control">
+                    <option value="">Select Country</option>
+                    @if (ViewBag.Countries != null)
+                    {
+                        foreach (var country in ViewBag.Countries)
+                        {
+                            <option value="@country">@country</option>
+                        }
+                    }
+                </select>
             </div>
+
+
+
             <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
+                <input asp-for="Phone" class="form-control" required="required" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" required="required" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Website" class="control-label"></label>
-                <input asp-for="Website" class="form-control" />
+                <input asp-for="Website" class="form-control" required="required" />
                 <span asp-validation-for="Website" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OpeningHours" class="control-label"></label>
-                <input asp-for="OpeningHours" class="form-control" />
+                <input asp-for="OpeningHours" class="form-control" required="required" />
                 <span asp-validation-for="OpeningHours" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="OwnerId" class="control-label"></label>
-                <select asp-for="OwnerId" class ="form-control" asp-items="ViewBag.OwnerId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Profit" class="control-label"></label>
-                <input asp-for="Profit" class="form-control" />
-                <span asp-validation-for="Profit" class="text-danger"></span>
-            </div>
+
+
             <div class="form-group">
                 <label asp-for="LogoFile" class="control-label"></label>
                 <input type="file" asp-for="LogoFile" class="form-control" />
@@ -74,7 +86,7 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
+        </form><!---form ends here-->
     </div>
 </div>
 
@@ -82,6 +94,4 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+

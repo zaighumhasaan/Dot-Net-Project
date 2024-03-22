@@ -42,6 +42,6 @@ public partial class Store
 
     public virtual Owner? Owner { get; set; }
     [NotMapped]
-    public IFormFile? LogoFile { get; set; }//ImageFile
+    public IFormFile? LogoFile { get; set; }//ImageFile to get image as an input from the user
     public String? Logo { get; set; }//Image
 }

@@ -1,0 +1,6 @@
+What is Layout page.
+Working of select list.
+what is razor view.
+•	Development Models
+•	MVC (Flow Chart Discussion)
+•	MVC framework architecture
