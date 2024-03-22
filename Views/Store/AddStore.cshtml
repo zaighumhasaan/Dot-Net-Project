@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "AddStore";
 }
-
 <h1 class="text-center bg-gradient-gray-dark">Create Store</h1>
 <hr />
 @if (ViewBag.SMessage != null)
@@ -40,7 +39,7 @@ else if (ViewBag.EMessage != null)
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
 
-            <<div class="form-group">
+            <div class="form-group">
                 <label asp-for="Country">Country:</label>
                 <select id="country" asp-for="Country" name="country" class="form-control">
                     <option value="">Select Country</option>
