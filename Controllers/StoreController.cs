@@ -1,5 +1,6 @@
 ﻿using Asp.NetProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System.Text;
 
 namespace Asp.NetProject.Controllers
@@ -19,6 +20,34 @@ namespace Asp.NetProject.Controllers
         {
             return View(_dbcontext.Stores.ToList());
         }
+
+        #region store detail
+
+        [HttpGet]
+        public IActionResult StoreDetail(int id )
+        {
+            try
+            {
+                Store obj = _dbcontext.Stores.Find(id);
+                if(obj!=null)
+                {
+                    return View(obj);
+                }
+               
+            }
+            catch(Exception)
+            {
+
+            }
+
+
+            return View();
+        }
+
+
+
+        #endregion store detail
+
 
         #region store update
 
@@ -293,8 +322,7 @@ namespace Asp.NetProject.Controllers
             try
             {
                 //var a = from stre in _dbcontext.Stores where stre.StoreName.Contains("A")
-                //        select stre;
-
+                //        select stre;              
                 store.Logo = UploadedFile(store);
                 store.StoreName = store.StoreName.ToUpper();
                 store.Description = store.Description.ToUpper();

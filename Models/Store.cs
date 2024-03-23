@@ -44,4 +44,6 @@ public partial class Store
     [NotMapped]
     public IFormFile? LogoFile { get; set; }//ImageFile to get image as an input from the user
     public String? Logo { get; set; }//Image
+
+
 }
