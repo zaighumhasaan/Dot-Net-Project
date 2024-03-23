@@ -20,8 +20,67 @@ namespace Asp.NetProject.Controllers
             return View(_dbcontext.Stores.ToList());
         }
 
+        #region store update
 
-        #region item Management 
+        [HttpGet]
+        public IActionResult UpdateStore(int id)
+        {
+            try
+            {
+
+                ViewBag.SMeesage = TempData["SMessage"];
+                ViewBag.EMessage = TempData["EMessage"];
+
+                Store obj = _dbcontext.Stores.Find(id);
+                if (obj == null)
+                {
+                    return View("No Record Found");
+                }
+                return View(obj);
+
+
+
+            }catch(Exception)
+            {
+                return View();
+            }
+
+
+
+        }
+
+        [HttpPost]
+        public IActionResult UpdateStore(Store obj)
+        {
+
+            try
+            {
+
+
+                if(obj!=null)
+                {
+
+                    obj.Logo = UploadedFile(obj);
+                    obj.UpdatedAt = DateTime.Now;
+                    _dbcontext.Stores.Update(obj);
+                    _dbcontext.SaveChanges();
+                    TempData["SMessage"] = "Data Updated Successfully";
+                }
+
+
+            }catch(Exception)
+            {
+
+                TempData["EMessage"] = "Some error occured. please try again!";
+
+            }
+
+
+            return View();
+        }
+        #endregion store update
+
+        #region store creation 
         [HttpGet]
         public IActionResult AddStore()
         {
@@ -254,10 +313,6 @@ namespace Asp.NetProject.Controllers
             }
             return View();
         }
-
-
-
-
         private string UploadedFile(Store model)
         {
             if (model.LogoFile != null)
@@ -279,10 +334,7 @@ namespace Asp.NetProject.Controllers
             // If no file was uploaded, return null or appropriate default value
             return null;
         }
-
-
-        #endregion
-
+        #endregion store creation
 
     }
 }
