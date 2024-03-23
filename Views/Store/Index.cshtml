@@ -9,6 +9,15 @@
     <a asp-action="Create">Create New</a>
 </p>
 
+@if(ViewBag.SMeesage != null)
+{
+
+    <div class="alert alert-success" >@ViewBag.SMeesage </div>
+}
+ @if(ViewBag.EMessage != null)
+ {
+     <div class="alert alert-primary">@ViewBag.EMessage</div>
+}
 
 <table class="table table-bordered table-hover table-responsive text-nowrap">
     <thead>
@@ -104,7 +113,7 @@
                 <td>
                     <a asp-action="UpdateStore" asp-route-id="@item.StoreId" class="btn btn-info btn-sm">Edit</a> |
                     <a asp-action="StoreDetail" asp-route-id="@item.StoreId" class="btn btn-success btn-sm">Details</a> |
-                    <a asp-action="DeleteCategory" asp-route-id="@item.StoreId" class="btn btn-danger btn-sm">Delete</a>
+                    <a asp-action="DeleteStore" asp-route-id="@item.StoreId" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
         }

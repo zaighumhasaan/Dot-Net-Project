@@ -18,8 +18,43 @@ namespace Asp.NetProject.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.SMeesage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
             return View(_dbcontext.Stores.ToList());
         }
+
+        #region delete Store
+
+
+        [HttpGet]
+        public IActionResult DeleteStore(int id)
+        {
+            try
+            {
+                Store store = _dbcontext.Stores.Find(id);
+                if(store!=null)
+                {
+                    _dbcontext.Stores.Remove(store);
+                    _dbcontext.SaveChanges();
+                    TempData["SMessage"] = "Record Deleted Successfully";
+                }
+                else
+                {
+                    TempData["EMessage"] = "Record Store  not found";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["EMessage"] = "Some error occured";
+            }
+            return RedirectToAction(nameof(StoreController.Index));
+        
+            
+        }
+
+
+
+        #endregion delete Store 
 
         #region store detail
 
