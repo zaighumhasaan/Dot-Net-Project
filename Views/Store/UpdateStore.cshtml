@@ -79,6 +79,7 @@
                 <label asp-for="LogoFile" class="control-label">Change Picture</label>
                 <input type="file" asp-for="LogoFile" class="form-control" />
                 <span asp-validation-for="LogoFile" class="text-danger"></span>
+                <img src="~/images/@Html.DisplayFor(model=>model.Logo)" style="width: 110px; height:100px" ; />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
