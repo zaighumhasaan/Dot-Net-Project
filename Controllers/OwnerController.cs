@@ -259,15 +259,141 @@ namespace Asp.NetProject.Controllers
 
 
 
+        #region Owner Detail
+
+        [HttpGet]
+        public IActionResult OwnerDetail(int id)
+        {
+            try
+            {
+                Owner obj = _dbcontext.Owners.Find(id);
+                if (obj != null)
+                {
+                    return View(obj);
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+
+            return View();
+        }
+        #endregion Owner Detail
+
 
 
         public IActionResult Index()
         {
 
-            return View();
+            ViewBag.SMeesage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
+
+
+            return View(_dbcontext.Owners.ToList());
+        }
+
+        #region delete Owner
+
+
+        [HttpGet]
+        public IActionResult DeleteOwner(int id)
+        {
+            try
+            {
+                Owner owner = _dbcontext.Owners.Find(id);
+                if (owner != null)
+                {
+                    _dbcontext.Owners.Remove(owner);
+                    _dbcontext.SaveChanges();
+                    TempData["SMessage"] = "Record Deleted Successfully";
+                }
+                else
+                {
+                    TempData["EMessage"] = "Record Store  not found";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["EMessage"] = "Some error occured";
+            }
+            return RedirectToAction(nameof(StoreController.Index));
+
+
         }
 
 
+
+        #endregion delete Owner
+
+
+
+        
+
+
+        #region store update
+
+        [HttpGet]
+        public IActionResult UpdateStore(int id)
+        {
+            try
+            {
+
+                ViewBag.SMeesage = TempData["SMessage"];
+                ViewBag.EMessage = TempData["EMessage"];
+
+                Owner obj = _dbcontext.Owners.Find(id);
+                if (obj == null)
+                {
+                    return View("No Record Found");
+                }
+                return View(obj);
+
+
+
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+
+
+
+        }
+
+        [HttpPost]
+        public IActionResult UpdateStore(Owner obj)
+        {
+
+            try
+            {
+
+
+                if (obj != null)
+                {
+
+                    obj.Image = UploadedFile(obj);
+                    obj.UpdatedAt = DateTime.Now;
+                    _dbcontext.Owners.Update(obj);
+                    _dbcontext.SaveChanges();
+                    TempData["SMessage"] = "Data Updated Successfully";
+                }
+
+
+            }
+            catch (Exception)
+            {
+
+                TempData["EMessage"] = "Some error occured. please try again!";
+
+            }
+
+
+            return View();
+        }
+        #endregion store update
 
 
         private string UploadedFile(Owner model)

@@ -58,7 +58,7 @@ namespace Asp.NetProject.Controllers
         #region store detail
 
         [HttpGet]
-        public IActionResult StoreDetail(int id )
+        public IActionResult OwnerDetail(int id )
         {
             try
             {
