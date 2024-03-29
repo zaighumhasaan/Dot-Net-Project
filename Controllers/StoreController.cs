@@ -355,21 +355,30 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
+                int? ownerId = HttpContext.Session.GetInt32("OwnerId");
+                if(ownerId != null)
+                {
+                    //var a = from stre in _dbcontext.Stores where stre.StoreName.Contains("A")
+                    //        select stre;              
+                    store.OwnerId = ownerId;
+                    store.Logo = UploadedFile(store);
+                    store.StoreName = store.StoreName.ToUpper();
+                    store.Description = store.Description.ToUpper();
+                    store.Location = store.Location.ToUpper();
+                    store.City = store.City.ToUpper();
+                    store.Email = store.Email.ToUpper();
+                    store.Website = store.Website.ToUpper();
+
+                    _dbcontext.Stores.Add(store);
+                    _dbcontext.SaveChanges();
+                    ViewBag.SMessage = "Data saved successfully";
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Owner ID not found in session.";
+                }
 
 
-                //var a = from stre in _dbcontext.Stores where stre.StoreName.Contains("A")
-                //        select stre;              
-                store.Logo = UploadedFile(store);
-                store.StoreName = store.StoreName.ToUpper();
-                store.Description = store.Description.ToUpper();
-                store.Location = store.Location.ToUpper();
-                store.City = store.City.ToUpper();
-                store.Email = store.Email.ToUpper();
-                store.Website = store.Website.ToUpper();
-
-                _dbcontext.Stores.Add(store);
-                _dbcontext.SaveChanges();
-                ViewBag.SMessage = "Data saved successfully";
             }
             catch (Exception)
             {
