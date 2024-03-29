@@ -355,6 +355,8 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
+
+
                 //var a = from stre in _dbcontext.Stores where stre.StoreName.Contains("A")
                 //        select stre;              
                 store.Logo = UploadedFile(store);

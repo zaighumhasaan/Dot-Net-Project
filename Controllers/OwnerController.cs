@@ -1,6 +1,8 @@
 ﻿using Asp.NetProject.Controllers;
 using Asp.NetProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Asp.NetProject.Controllers
 {
@@ -15,7 +17,7 @@ namespace Asp.NetProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddOwner()
+        public IActionResult SignUp()
         {
             var countries = new List<string>{
 
@@ -221,12 +223,21 @@ namespace Asp.NetProject.Controllers
 
         }
         [HttpPost]
-        public IActionResult AddOwner(Owner owner)
+        public IActionResult SignUp(Owner owner)
         {
 
             try
             {
 
+                var existingOwner = _dbcontext.Owners.FirstOrDefault(o => o.Email.ToUpper() == owner.Email.ToUpper());
+                if (existingOwner != null)
+                {
+                    ViewBag.EMessage = "User with this email already exists!";
+                    return View();
+                }
+
+
+                owner.Password = HashPassword(owner.Password);
                         owner.Address = owner.Address.ToUpper();
                         owner.FirstName = owner.FirstName.ToUpper();
                         owner.LastName = owner.LastName.ToUpper();
@@ -374,6 +385,7 @@ namespace Asp.NetProject.Controllers
                 if (obj != null)
                 {
 
+                    obj.Password = HashPassword(obj.Password);
                     obj.Image = UploadedFile(obj);
                     obj.UpdatedAt = DateTime.Now;
                     _dbcontext.Owners.Update(obj);
@@ -395,6 +407,22 @@ namespace Asp.NetProject.Controllers
         }
         #endregion store update
 
+        private static string HashPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // ComputeHash - returns byte array
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Convert byte array to a string
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
 
         private string UploadedFile(Owner model)
         {
