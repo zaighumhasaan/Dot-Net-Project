@@ -16,6 +16,13 @@ var connectionString = configuration.GetConnectionString("CS");
 builder.Services.AddDbContext<PosContext>(options =>
     options.UseSqlServer(connectionString));
 
+// Add session state
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".YourApp.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Adjust the timeout as needed
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +39,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+// Enable session middleware
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
