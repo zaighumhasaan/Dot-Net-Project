@@ -1,6 +1,7 @@
 ﻿using Asp.NetProject.Controllers;
 using Asp.NetProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -237,7 +238,7 @@ namespace Asp.NetProject.Controllers
                 }
 
 
-                owner.Password = HashPassword(owner.Password);
+                        owner.Password = HashPassword(owner.Password);
                         owner.Address = owner.Address.ToUpper();
                         owner.FirstName = owner.FirstName.ToUpper();
                         owner.LastName = owner.LastName.ToUpper();
@@ -268,7 +269,63 @@ namespace Asp.NetProject.Controllers
             return View();
         }
 
+        #region Owner Login
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(Owner model)
+        {
+            try
+            {
+                
+                var pass = HashPassword(model.Password);
+                var user = _dbcontext.Owners.FirstOrDefault(u => u.Email.ToUpper() == model.Email.ToUpper());
+               
+                if (user == null)
+                {
+                    
+
+
+
+
+                    ViewBag.EMessage = "Invalid email or password";
+                    return View();
+                }
+                else
+                {
+
+                    if(user.Password == pass)
+                    {
+                        int ownerId = user.OwnerId;
+                        // Set the owner ID in session
+                        HttpContext.Session.SetInt32("OwnerId", ownerId);
+                        return RedirectToAction("AddStore", "Store");
+                    }
+
+                    ViewBag.EMessage = "Invalid email or password";
+                    return View();
+
+                }
+
+
+               
+            }
+            catch (Exception)
+            {
+                ViewBag.EMessage = "Some error occurred. Please try again later.";
+                return View();
+            }
+        }
+
+      
+
+
+        #endregion Owner Login
 
         #region Owner Detail
 
@@ -344,10 +401,10 @@ namespace Asp.NetProject.Controllers
         
 
 
-        #region store update
+        #region Owner update
 
         [HttpGet]
-        public IActionResult UpdateStore(int id)
+        public IActionResult UpdateOwner(int id)
         {
             try
             {
@@ -375,7 +432,7 @@ namespace Asp.NetProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateStore(Owner obj)
+        public IActionResult UpdateOwner(Owner obj)
         {
 
             try
