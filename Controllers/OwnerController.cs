@@ -401,10 +401,10 @@ namespace Asp.NetProject.Controllers
         
 
 
-        #region store update
+        #region Owner update
 
         [HttpGet]
-        public IActionResult UpdateStore(int id)
+        public IActionResult UpdateOwner(int id)
         {
             try
             {
@@ -432,7 +432,7 @@ namespace Asp.NetProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateStore(Owner obj)
+        public IActionResult UpdateOwner(Owner obj)
         {
 
             try
