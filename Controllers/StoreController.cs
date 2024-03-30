@@ -22,133 +22,14 @@ namespace Asp.NetProject.Controllers
             return View(_dbcontext.Stores.ToList());
         }
 
-        #region delete Store
-
-
-        [HttpGet]
-        public IActionResult DeleteStore(int id)
-        {
-            try
-            {
-                Store store = _dbcontext.Stores.Find(id);
-                if(store!=null)
-                {
-                    _dbcontext.Stores.Remove(store);
-                    _dbcontext.SaveChanges();
-                    TempData["SMessage"] = "Record Deleted Successfully";
-                }
-                else
-                {
-                    TempData["EMessage"] = "Record Store  not found";
-                }
-            }
-            catch (Exception ex)
-            {
-                TempData["EMessage"] = "Some error occured";
-            }
-            return RedirectToAction(nameof(StoreController.Index));
-        
-            
-        }
-
-
-
-        #endregion delete Store 
-
-        #region store detail
-
-        [HttpGet]
-        public IActionResult StoreDetail(int id )
-        {
-            try
-            {
-                Store obj = _dbcontext.Stores.Find(id);
-                if(obj!=null)
-                {
-                    return View(obj);
-                }
-               
-            }
-            catch(Exception)
-            {
-
-            }
-
-
-            return View();
-        }
-
-
-
-        #endregion store detail
-
-
-        #region store update
-
-        [HttpGet]
-        public IActionResult UpdateStore(int id)
-        {
-            try
-            {
-
-                ViewBag.SMeesage = TempData["SMessage"];
-                ViewBag.EMessage = TempData["EMessage"];
-
-                Store obj = _dbcontext.Stores.Find(id);
-                if (obj == null)
-                {
-                    return View("No Record Found");
-                }
-                return View(obj);
-
-
-
-            }catch(Exception)
-            {
-                return View();
-            }
-
-
-
-        }
-
-        [HttpPost]
-        public IActionResult UpdateStore(Store obj)
-        {
-
-            try
-            {
-
-
-                if(obj!=null)
-                {
-
-                    obj.Logo = UploadedFile(obj);
-                    obj.UpdatedAt = DateTime.Now;
-                    _dbcontext.Stores.Update(obj);
-                    _dbcontext.SaveChanges();
-                    TempData["SMessage"] = "Data Updated Successfully";
-                }
-
-
-            }catch(Exception)
-            {
-
-                TempData["EMessage"] = "Some error occured. please try again!";
-
-            }
-
-
-            return View();
-        }
-        #endregion store update
 
         #region store creation 
         [HttpGet]
         public IActionResult AddStore()
         {
+
             var countries = new List<string>{
-               
+
         "Afghanistan",
         "Albania",
         "Algeria",
@@ -355,11 +236,11 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
+                
                 int? ownerId = HttpContext.Session.GetInt32("OwnerId");
-                if(ownerId != null)
+                if (ownerId != null)
                 {
-                    //var a = from stre in _dbcontext.Stores where stre.StoreName.Contains("A")
-                    //        select stre;              
+         
                     store.OwnerId = ownerId;
                     store.Logo = UploadedFile(store);
                     store.StoreName = store.StoreName.ToUpper();
@@ -372,11 +253,13 @@ namespace Asp.NetProject.Controllers
                     _dbcontext.Stores.Add(store);
                     _dbcontext.SaveChanges();
                     ViewBag.SMessage = "Data saved successfully";
+                    TempData["SMessage"] = "Data saved successfully";
+                    return View();
                 }
-                else
-                {
-                    ViewBag.ErrorMessage = "Owner ID not found in session.";
-                }
+
+
+                ViewBag.EMessage = "some error occured login again and retry !";
+
 
 
             }
@@ -408,6 +291,133 @@ namespace Asp.NetProject.Controllers
             return null;
         }
         #endregion store creation
+
+        #region store detail
+
+        [HttpGet]
+        public IActionResult StoreDetail(int id )
+        {
+            try
+            {
+                Store obj = _dbcontext.Stores.Find(id);
+                if(obj!=null)
+                {
+                    return View(obj);
+                }
+               
+            }
+            catch(Exception)
+            {
+
+            }
+
+
+            return View();
+        }
+
+
+
+        #endregion store detail
+
+
+        #region store update
+
+        [HttpGet]
+        public IActionResult UpdateStore(int id)
+        {
+            try
+            {
+
+                ViewBag.SMeesage = TempData["SMessage"];
+                ViewBag.EMessage = TempData["EMessage"];
+
+                Store obj = _dbcontext.Stores.Find(id);
+                if (obj == null)
+                {
+                    return View("No Record Found");
+                }
+                return View(obj);
+
+
+
+            }catch(Exception)
+            {
+                return View();
+            }
+
+
+
+        }
+
+        [HttpPost]
+        public IActionResult UpdateStore(Store obj, string originalImage)
+        {
+            try
+            {
+                
+                if (obj != null)
+                {
+                    if(obj.LogoFile==null)
+                    {
+                        obj.Logo = originalImage;
+                    }
+                    else
+                    {
+                        obj.Logo = UploadedFile(obj);
+                    }
+
+                    
+                    obj.UpdatedAt = DateTime.Now;
+                    _dbcontext.Stores.Update(obj);
+                    _dbcontext.SaveChanges();
+                    TempData["SMessage"] = "Data Updated Successfully";
+                }
+            }
+            catch (Exception)
+            {
+                TempData["EMessage"] = "Some error occurred. Please try again!";
+            }
+
+            return RedirectToAction("Index", "Store");
+
+        }
+
+        #endregion store update
+
+
+
+        #region delete Store
+
+
+        [HttpGet]
+        public IActionResult DeleteStore(int id)
+        {
+            try
+            {
+                Store store = _dbcontext.Stores.Find(id);
+                if (store != null)
+                {
+                    _dbcontext.Stores.Remove(store);
+                    _dbcontext.SaveChanges();
+                    TempData["SMessage"] = "Record Deleted Successfully";
+                }
+                else
+                {
+                    TempData["EMessage"] = "Record Store  not found";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["EMessage"] = "Some error occured";
+            }
+            return RedirectToAction(nameof(StoreController.Index));
+
+
+        }
+
+
+
+        #endregion delete Store 
 
     }
 }

@@ -9,7 +9,8 @@
 {
     <div class="alert alert-success ">@ViewBag.SMessage</div>
 }
-else if (ViewBag.EMessage != null)
+
+@if (ViewBag.EMessage != null)
 {
     <div class="alert alert-warning">@ViewBag.EMessage</div>
 }

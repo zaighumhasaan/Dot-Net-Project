@@ -432,7 +432,7 @@ namespace Asp.NetProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateOwner(Owner obj)
+        public IActionResult UpdateOwner(Owner obj, string originalImage)
         {
 
             try
@@ -442,8 +442,22 @@ namespace Asp.NetProject.Controllers
                 if (obj != null)
                 {
 
+
+
+                    if (obj.LogoFile == null)
+                    {
+                        obj.Image = originalImage;
+                    }
+                    else
+                    {
+                        obj.Image = UploadedFile(obj);
+                    }
+
+
+
+
                     obj.Password = HashPassword(obj.Password);
-                    obj.Image = UploadedFile(obj);
+                    
                     obj.UpdatedAt = DateTime.Now;
                     _dbcontext.Owners.Update(obj);
                     _dbcontext.SaveChanges();
@@ -460,7 +474,7 @@ namespace Asp.NetProject.Controllers
             }
 
 
-            return View();
+            return RedirectToAction("Index", "Owner");
         }
         #endregion store update
 
