@@ -1,5 +1,6 @@
 ﻿using Asp.NetProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Asp.NetProject.Controllers
@@ -19,7 +20,13 @@ namespace Asp.NetProject.Controllers
         {
             ViewBag.SMeesage = TempData["SMessage"];
             ViewBag.EMessage = TempData["EMessage"];
-            return View(_dbcontext.Stores.ToList());
+            int? ownerId = HttpContext.Session.GetInt32("OwnerId");
+
+            var stores = (from s in _dbcontext.Stores
+                          where s.OwnerId == ownerId
+                          select s).ToList();
+
+            return View(stores);
         }
 
 
