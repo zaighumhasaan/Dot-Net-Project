@@ -306,10 +306,14 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
-                Store obj = _dbcontext.Stores.Find(id);
-                if(obj!=null)
+                Store store = _dbcontext.Stores.Find(id);
+                if(store != null)
                 {
-                    return View(obj);
+                    int storeId = store.StoreId;
+
+                    HttpContext.Session.SetInt32("StoreId", storeId);
+                   
+                    return View(store);
                 }
                
             }

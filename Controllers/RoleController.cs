@@ -72,8 +72,6 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
-                if(id!=null)
-                {
                     Role obj = _dbContext.Roles.Find(id);
                     if(obj!=null)
                     {
@@ -81,7 +79,7 @@ namespace Asp.NetProject.Controllers
                     }
 
 
-                }
+                
 
 
             }
@@ -107,10 +105,8 @@ namespace Asp.NetProject.Controllers
 
 
 
-                if (id!=null)
-                {
+
                     return View(_dbContext.Roles.Find(id));
-                }
                 
             }
             catch(Exception)

@@ -42,10 +42,11 @@ public partial class Employee
 
     public int? RoleId { get; set; }
 
- //   public virtual Role? Role { get; set; }
+    public virtual Role? Role { get; set; }
 
     public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 
+    public virtual Store? Store { get; set; }
 
     [NotMapped]
     public IFormFile? ImageFile { get; set; }//ImageFile to get image as an input from the user
