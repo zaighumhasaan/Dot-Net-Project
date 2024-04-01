@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Asp.NetProject.Models;
 
@@ -27,7 +28,7 @@ public partial class Employee
 
     public int? StoreId { get; set; }
 
-    public byte[]? Image { get; set; }
+//    public byte[]? Image { get; set; }
 
     public DateOnly? StartDate { get; set; }
 
@@ -46,4 +47,8 @@ public partial class Employee
     public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 
     public virtual Store? Store { get; set; }
+
+    [NotMapped]
+    public IFormFile? ImageFile { get; set; }//ImageFile to get image as an input from the user
+    public String? Image { get; set; }//Image
 }

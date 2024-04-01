@@ -1,40 +1,44 @@
 ﻿using Asp.NetProject.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Asp.NetProject.Controllers
 {
-    public class StoreController : Controller
+    public class EmployeeController : Controller
     {
-
+        private readonly PosContext _dbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
-        private readonly PosContext _dbcontext;
-        public StoreController(PosContext dbcontext, IWebHostEnvironment hostEnvironment)
+        public  EmployeeController(PosContext context, IWebHostEnvironment hostEnvironment)
         {
-
-            _dbcontext = dbcontext;
+            _dbContext = context;
             webHostEnvironment = hostEnvironment;
+
         }
+
+
+
+
+
         public IActionResult Index()
         {
-            ViewBag.SMeesage = TempData["SMessage"];
-            ViewBag.EMessage = TempData["EMessage"];
-            int? ownerId = HttpContext.Session.GetInt32("OwnerId");
+            
+            int? storeId = HttpContext.Session.GetInt32("StoreId");
 
-            var stores = (from s in _dbcontext.Stores
-                          where s.OwnerId == ownerId
-                          select s).ToList();
+            var emplpyee = (from s in _dbContext.Employees
+                          where s.StoreId == storeId
+                            select s).ToList();
 
-            return View(stores);
+            return View(emplpyee);
+
+
         }
 
+        #region Create Employee
 
-        #region store creation 
         [HttpGet]
-        public IActionResult AddStore()
+        public IActionResult Create()
         {
-
             var countries = new List<string>{
 
         "Afghanistan",
@@ -235,59 +239,186 @@ namespace Asp.NetProject.Controllers
     };
 
             ViewBag.Countries = countries;
+            ViewBag.Roles = _dbContext.Roles.ToList();
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddStore(Store store)
+        public IActionResult Create(Employee obj) 
         {
+
             try
             {
-                
-                int? ownerId = HttpContext.Session.GetInt32("OwnerId");
-                if (ownerId != null)
-                {
-         
-                    store.OwnerId = ownerId;
-                    store.Logo = UploadedFile(store);
-                    store.StoreName = store.StoreName.ToUpper();
-                    store.Description = store.Description.ToUpper();
-                    store.Location = store.Location.ToUpper();
-                    store.City = store.City.ToUpper();
-                    store.Email = store.Email.ToUpper();
-                    store.Website = store.Website.ToUpper();
+                int? storeId = HttpContext.Session.GetInt32("StoreId");
 
-                    _dbcontext.Stores.Add(store);
-                    _dbcontext.SaveChanges();
-                    ViewBag.SMessage = "Data saved successfully";
-                    TempData["SMessage"] = "Data saved successfully";
+                if(storeId == null) 
+                {
+
+                    ViewBag.EMessage = "some error occured please try again lator !";
                     return View();
+
+
+                }
+                else
+                {
+
+                    if (obj != null)
+                    {
+                        obj.Image = UploadedFile(obj);
+                        obj.CreatedAt = DateTime.Now;
+                        obj.FirstName = obj.FirstName.ToUpper();
+                        obj.LastName = obj.LastName.ToUpper();
+                        obj.Email = obj.Email.ToUpper();
+                        obj.Address = obj.Address.ToUpper();
+                        obj.City = obj.City.ToUpper();
+                        obj.StoreId = storeId;
+                        obj.UpdatedAt = DateTime.Now;
+                        _dbContext.Employees.Add(obj);
+                        
+                        _dbContext.SaveChanges();
+                        ViewBag.SMessage = "Success";
+                        //return View();
+                      return RedirectToAction("Index", "Employee");
+
+                    }
+                    ViewBag.EMessage = "some error occured please try again lator !";
                 }
 
 
-                ViewBag.EMessage = "some error occured login again and retry !";
+
+            }
+            catch(Exception)
+            {
+
+            }
+
+            return View();
+        }
+
+        #endregion Create Employee
+
+        #region Detail
+        [HttpGet]
+        public IActionResult Detail(int id)
+        {
+            try
+            {
+
+
+                    Employee obj = _dbContext.Employees.Find(id);
+
+
+                    if(obj!=null)
+                    {
+                        return View(obj);
+                    }
+
+
+                
+
+            }
+            catch(Exception)
+            {
+                ViewBag.EMessage = " some error occured please try again lator !";
+            }
+
+            return View();
+        }
+
+
+        #endregion Detail
+
+
+        #region Update
+        [HttpGet]
+ public IActionResult Update(int id)
+        {
+            try
+            {
+                if(id!=null)
+                {
+                    return View(_dbContext.Employees.Find(id));
+                }
+                else
+                {
+                    ViewBag.EMessage = " some error occured please try again lator !";
+                }
+            }
+            catch(Exception)
+            {
+                ViewBag.EMessage = " some error occured please try again lator !";
+            }
+
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Update(Employee obj,string originalImage)
+        {
+
+            try
+            {
+
+
+                if (obj != null)
+                {
+                    if (obj.ImageFile == null)
+                    {
+                        obj.Image = originalImage;
+                    }
+                    else
+                    {
+                        obj.Image = UploadedFile(obj);
+                    }
+
+
+                    obj.CreatedAt = DateTime.Now;
+                    obj.FirstName = obj.FirstName.ToUpper();
+                    obj.LastName = obj.LastName.ToUpper();
+                    obj.Email = obj.Email.ToUpper();
+                    obj.Address = obj.Address.ToUpper();
+                    obj.City = obj.City.ToUpper();
+                    _dbContext.Employees.Add(obj);
+                    _dbContext.SaveChanges();
+                    ViewBag.SMessage = "Success";
+                    //return View();
+                    return RedirectToAction("Index", "Employee");
+
+
+                    TempData["SMessage"] = "Data Updated Successfully";
+                }
+
 
 
 
             }
             catch (Exception)
             {
-                ViewBag.EMessage = "Some Error Occurred";
+
             }
+
             return View();
+        
         }
-        private string UploadedFile(Store model)
+
+        #endregion Update
+
+
+
+
+        private string UploadedFile(Employee model)
         {
-            if (model.LogoFile != null)
+            if (model.ImageFile != null)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.LogoFile.FileName;
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ImageFile.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
                 // Saving the file
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    model.LogoFile.CopyTo(fileStream);
+                    model.ImageFile.CopyTo(fileStream);
                 }
 
                 // Returning the unique file name
@@ -297,138 +428,12 @@ namespace Asp.NetProject.Controllers
             // If no file was uploaded, return null or appropriate default value
             return null;
         }
-        #endregion store creation
-
-        #region store detail
-
-        [HttpGet]
-        public IActionResult StoreDetail(int id )
-        {
-            try
-            {
-                Store store = _dbcontext.Stores.Find(id);
-                if(store != null)
-                {
-                    int storeId = store.StoreId;
-
-                    HttpContext.Session.SetInt32("StoreId", storeId);
-                   
-                    return View(store);
-                }
-               
-            }
-            catch(Exception)
-            {
-
-            }
-
-
-            return View();
-        }
-
-
-
-        #endregion store detail
-
-
-        #region store update
-
-        [HttpGet]
-        public IActionResult UpdateStore(int id)
-        {
-            try
-            {
-
-                ViewBag.SMeesage = TempData["SMessage"];
-                ViewBag.EMessage = TempData["EMessage"];
-
-                Store obj = _dbcontext.Stores.Find(id);
-                if (obj == null)
-                {
-                    return View("No Record Found");
-                }
-                return View(obj);
-
-
-
-            }catch(Exception)
-            {
-                return View();
-            }
-
-
-
-        }
-
-        [HttpPost]
-        public IActionResult UpdateStore(Store obj, string originalImage)
-        {
-            try
-            {
-                
-                if (obj != null)
-                {
-                    if(obj.LogoFile==null)
-                    {
-                        obj.Logo = originalImage;
-                    }
-                    else
-                    {
-                        obj.Logo = UploadedFile(obj);
-                    }
-
-                    
-                    obj.UpdatedAt = DateTime.Now;
-                    _dbcontext.Stores.Update(obj);
-                    _dbcontext.SaveChanges();
-                    TempData["SMessage"] = "Data Updated Successfully";
-                }
-            }
-            catch (Exception)
-            {
-                TempData["EMessage"] = "Some error occurred. Please try again!";
-            }
-
-            return RedirectToAction("Index", "Store");
-
-        }
-
-        #endregion store update
-
-
-
-        #region delete Store
-
-
-        [HttpGet]
-        public IActionResult DeleteStore(int id)
-        {
-            try
-            {
-                Store store = _dbcontext.Stores.Find(id);
-                if (store != null)
-                {
-                    _dbcontext.Stores.Remove(store);
-                    _dbcontext.SaveChanges();
-                    TempData["SMessage"] = "Record Deleted Successfully";
-                }
-                else
-                {
-                    TempData["EMessage"] = "Record Store  not found";
-                }
-            }
-            catch (Exception)
-            {
-                TempData["EMessage"] = "Some error occured";
-            }
-            return RedirectToAction(nameof(StoreController.Index));
-
-
-        }
-
-
-
-        #endregion delete Store 
-
     }
+
+
+
+
+
+
+    
 }

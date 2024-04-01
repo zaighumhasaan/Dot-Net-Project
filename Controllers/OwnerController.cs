@@ -383,7 +383,7 @@ namespace Asp.NetProject.Controllers
                     TempData["EMessage"] = "Record Store  not found";
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 TempData["EMessage"] = "Some error occured";
             }
