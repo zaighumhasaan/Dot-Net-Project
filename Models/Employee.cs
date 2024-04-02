@@ -28,7 +28,7 @@ public partial class Employee
 
     public int? StoreId { get; set; }
 
-//    public byte[]? Image { get; set; }
+
 
     public DateOnly? StartDate { get; set; }
 

@@ -16,23 +16,60 @@ namespace Asp.NetProject.Controllers
 
         }
 
+     
 
 
 
-
+        #region List
         public IActionResult Index()
         {
-            
-            int? storeId = HttpContext.Session.GetInt32("StoreId");
+            var employees = (from e in _dbContext.Employees
+                             join r in _dbContext.Roles on e.RoleId equals r.RoleId
+                             //where e.RoleId == r.RoleId
+                             select new ViewEmployee
+                             {
+                                 EmployeeId = e.EmployeeId,
+                                 FirstName = e.FirstName,
+                                 LastName = e.LastName,
+                                 DateOfBirth = e.DateOfBirth,
+                                 Gender = e.Gender,
+                                 Email = e.Email,
+                                 Phone = e.Phone,
+                                 Address = e.Address,
+                                 City = e.City,
+                                 Country = e.Country,
+                                 StoreId = e.StoreId,
+                                 StartDate = e.StartDate,
+                                 EndDate = e.EndDate,
+                                 Salary = e.Salary,
+                                 CreatedAt = e.CreatedAt,
+                                 UpdatedAt = e.UpdatedAt,
+                                 RoleId = e.RoleId,
+                                 Store = e.Store,
+                                 Image = e.Image,
+                                 
+                                 RoleName = r.RoleName // Access role name from the joined Roles table
+                             }).ToList();
 
-            var emplpyee = (from s in _dbContext.Employees
-                          where s.StoreId == storeId
-                            select s).ToList();
+            ViewBag.SMessage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
+            return View(employees);
 
-            return View(emplpyee);
+
+            /*            int? storeId = HttpContext.Session.GetInt32("StoreId");
+
+                        var emplpyee = (from s in _dbContext.Employees
+                                        where s.StoreId == storeId
+                                        select s).ToList();
+                        ViewBag.SMessage = TempData["SMessage"];
+                        ViewBag.EMessage = TempData["EMessage"];
+
+
+                        return View(emplpyee);*/
 
 
         }
+        #endregion List
 
         #region Create Employee
 
@@ -238,8 +275,11 @@ namespace Asp.NetProject.Controllers
         "Zimbabwe"
     };
 
+            TempData["countriesList"] = countries;
             ViewBag.Countries = countries;
             ViewBag.Roles = _dbContext.Roles.ToList();
+            ViewBag.SMessage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
             return View();
         }
 
@@ -261,27 +301,36 @@ namespace Asp.NetProject.Controllers
                 }
                 else
                 {
-
-                    if (obj != null)
+                    var Employee = _dbContext.Employees.FirstOrDefault(u => u.Email == obj.Email);
+                    if(Employee==null)
                     {
-                        obj.Image = UploadedFile(obj);
-                        obj.CreatedAt = DateTime.Now;
-                        obj.FirstName = obj.FirstName.ToUpper();
-                        obj.LastName = obj.LastName.ToUpper();
-                        obj.Email = obj.Email.ToUpper();
-                        obj.Address = obj.Address.ToUpper();
-                        obj.City = obj.City.ToUpper();
-                        obj.StoreId = storeId;
-                        obj.UpdatedAt = DateTime.Now;
-                        _dbContext.Employees.Add(obj);
-                        
-                        _dbContext.SaveChanges();
-                        ViewBag.SMessage = "Success";
-                        //return View();
-                      return RedirectToAction("Index", "Employee");
+                        if (obj != null)
+                        {
+                            obj.Image = UploadedFile(obj);
+                            obj.CreatedAt = DateTime.Now;
+                            obj.FirstName = obj.FirstName.ToUpper();
+                            obj.LastName = obj.LastName.ToUpper();
+                            obj.Email = obj.Email.ToUpper();
+                            obj.Address = obj.Address.ToUpper();
+                            obj.City = obj.City.ToUpper();
+                            obj.StoreId = storeId;
+                            obj.UpdatedAt = DateTime.Now;
+                            _dbContext.Employees.Add(obj);
+
+                            _dbContext.SaveChanges();
+                            TempData["SMessage"] = "Success";
+
+                            return RedirectToAction("Index", "Employee");
+
+                        }
+                        TempData["EMessage"] = "user with this email already exists !";
+                        return RedirectToAction("Create", "Employee");
 
                     }
-                    ViewBag.EMessage = "some error occured please try again lator !";
+                    TempData["EMessage"] = "user with this email already exists !";
+                    return RedirectToAction("Create", "Employee");
+
+
                 }
 
 
@@ -290,6 +339,7 @@ namespace Asp.NetProject.Controllers
             catch(Exception)
             {
 
+                TempData["EMessage"] = "some error occured please try again lator !";
             }
 
             return View();
@@ -310,7 +360,9 @@ namespace Asp.NetProject.Controllers
 
                     if(obj!=null)
                     {
-                        return View(obj);
+                    ViewBag.SMessage = TempData["SMessage"];
+                    ViewBag.EMessage = TempData["EMessage"];
+                    return View(obj);
                     }
 
 
@@ -335,14 +387,16 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
-                if(id!=null)
+                ViewBag.Countries = TempData["countriesList"];
+                Employee obj = _dbContext.Employees.Find(id);
+                ViewBag.Roles = _dbContext.Roles.ToList();
+                if (obj!=null)
                 {
                     return View(_dbContext.Employees.Find(id));
                 }
-                else
-                {
-                    ViewBag.EMessage = " some error occured please try again lator !";
-                }
+                ViewBag.EMessage = " some error occured please try again lator !";
+
+
             }
             catch(Exception)
             {
@@ -379,15 +433,18 @@ namespace Asp.NetProject.Controllers
                     obj.Email = obj.Email.ToUpper();
                     obj.Address = obj.Address.ToUpper();
                     obj.City = obj.City.ToUpper();
-                    _dbContext.Employees.Add(obj);
+                    _dbContext.Employees.Update(obj);
                     _dbContext.SaveChanges();
                     ViewBag.SMessage = "Success";
                     //return View();
+                    TempData["SMessage"] = "Data Updated Successfully";
                     return RedirectToAction("Index", "Employee");
 
 
-                    TempData["SMessage"] = "Data Updated Successfully";
+
                 }
+                TempData["EMessage"] = "some error occured please try again lator !";
+                return RedirectToAction("Index", "Employee");
 
 
 
@@ -395,16 +452,45 @@ namespace Asp.NetProject.Controllers
             }
             catch (Exception)
             {
-
+                TempData["EMessage"] = "some error occured please try again lator !";
             }
 
-            return View();
-        
+            return RedirectToAction("Index", "Employee");
+
         }
 
         #endregion Update
 
+        #region Delete
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                Employee obj = _dbContext.Employees.Find(id);
+                if (obj != null)
+                {
+                    _dbContext.Employees.Remove(obj);
+                    _dbContext.SaveChanges();
+                    TempData["SMessage"] = "Employee Deleted ";
+                    return RedirectToAction("Index", "Employee");
+                }
+                TempData["SMessage"] = "Some Error Occured Please Try Again Lator !";
 
+
+
+
+
+            }
+            catch(Exception)
+            {
+                TempData["SMessage"] = "Some Error Occured Please Try Again Lator !";
+            }
+            return View();
+        }
+
+
+        #endregion Delete
 
 
         private string UploadedFile(Employee model)
@@ -428,12 +514,13 @@ namespace Asp.NetProject.Controllers
             // If no file was uploaded, return null or appropriate default value
             return null;
         }
+
+
+
+
+
+
+
     }
 
-
-
-
-
-
-    
 }
