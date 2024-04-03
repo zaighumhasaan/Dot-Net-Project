@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Asp.NetProject.Models;
 
@@ -35,7 +36,13 @@ public partial class Product
 
     public decimal? PurchasePrice { get; set; }
 
+    public int? DepartmentId { get; set; }
+
     public virtual ProductCategory? Category { get; set; }
 
+    public virtual Department? Department { get; set; }
+
     public virtual ICollection<SaleLine> SaleLines { get; set; } = new List<SaleLine>();
+    [NotMapped]
+    public IFormFile? ImageFile { get; set; }
 }

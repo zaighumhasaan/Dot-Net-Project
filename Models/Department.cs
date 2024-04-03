@@ -17,5 +17,7 @@ public partial class Department
 
     public DateTime? UpdatedAt { get; set; }
 
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
     public virtual Store? Store { get; set; }
 }

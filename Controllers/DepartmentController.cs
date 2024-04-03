@@ -92,6 +92,9 @@ namespace Asp.NetProject.Controllers
                 Department dep = _dbcontext.Departments.Find(id);
                 if (dep != null)
                 {
+                    int departmentId = dep.DepartmentId;
+
+                    HttpContext.Session.SetInt32("departmentId", departmentId);
                     return View(dep);
                 }
 

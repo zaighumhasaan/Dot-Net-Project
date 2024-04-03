@@ -34,7 +34,6 @@ public partial class PosContext : DbContext
     public virtual DbSet<Store> Stores { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
         => optionsBuilder.UseSqlServer("Server=ZAIGEE\\SQLEXPRESS;Database=POS;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -92,6 +91,7 @@ public partial class PosContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Gender).HasMaxLength(10);
+            entity.Property(e => e.Image).IsUnicode(false);
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -140,9 +140,11 @@ public partial class PosContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Gender).HasMaxLength(10);
+            entity.Property(e => e.Image).IsUnicode(false);
             entity.Property(e => e.LastName)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.Password).IsUnicode(false);
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)
                 .IsUnicode(false);
@@ -195,6 +197,10 @@ public partial class PosContext : DbContext
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("FK__Product__Categor__3F466844");
+
+            entity.HasOne(d => d.Department).WithMany(p => p.Products)
+                .HasForeignKey(d => d.DepartmentId)
+                .HasConstraintName("FK_Product_Department");
         });
 
         modelBuilder.Entity<ProductCategory>(entity =>
@@ -324,6 +330,7 @@ public partial class PosContext : DbContext
             entity.Property(e => e.Location)
                 .HasMaxLength(255)
                 .IsUnicode(false);
+            entity.Property(e => e.Logo).IsUnicode(false);
             entity.Property(e => e.OpeningHours)
                 .HasMaxLength(255)
                 .IsUnicode(false);
