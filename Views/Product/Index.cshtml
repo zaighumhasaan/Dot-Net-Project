@@ -6,6 +6,15 @@
 
 <h1>Index</h1>
 
+@if (ViewBag.SMessage != null)
+{
+    <div class="alert alert-success">@ViewBag.SMessage</div>
+}
+@if (ViewBag.EMessage != null)
+{
+    <div class="alert alert-dabger">@ViewBag.EMessage</div>
+}
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -33,14 +42,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.StockQuantity)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sku)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Barcode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ImagePath)
+                Product
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
@@ -61,59 +68,59 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Formula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MfgDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StockQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sku)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Barcode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagePath)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchasePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department.DepartmentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Formula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MfgDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockQuantity)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Barcode)
+                </td>
+
+                <td>
+                    <img src="../images/@Html.DisplayFor(modelItem => item.ImagePath)" style="width:100px; height:100px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PurchasePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department.DepartmentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.CategoryId)
+                </td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@item.ProductId">Edit</a> |
+                    <a asp-action="Detail" asp-route-id="@item.ProductId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

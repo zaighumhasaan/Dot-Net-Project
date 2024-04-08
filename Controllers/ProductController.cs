@@ -1,6 +1,7 @@
 ﻿using Asp.NetProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using IronBarCode;
+using Microsoft.EntityFrameworkCore;
 namespace Asp.NetProject.Controllers
 
 {
@@ -18,13 +19,15 @@ namespace Asp.NetProject.Controllers
         #region List
         public IActionResult Index()
         {
-
+            ViewBag.SMessage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
 
             return View(_dbContext.Products.ToList());
         }
         #endregion List
 
-        #region Create 
+
+        #region Create
         [HttpGet]
         public IActionResult Create()
         {
@@ -69,6 +72,125 @@ namespace Asp.NetProject.Controllers
         #endregion Create
 
 
+        #region Detail
+        [HttpGet]
+        public IActionResult Detail(int id)
+        {
+            try
+            {
+
+                Product product = _dbContext.Products.Find(id);
+                if (product != null)
+                {
+                    return View(product);
+                }
+
+            }
+            catch (Exception)
+            {
+                TempData["EMessage"] = "some error occured please try again lator !";
+            }
+
+            return View();
+        }
+
+        #endregion Detail
+
+        #region Update
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+
+            try
+            {
+
+                Product product = _dbContext.Products.Find(id);
+
+                if(product!=null)
+                {
+                    ViewBag.ListCategories = _dbContext.ProductCategories.ToList();
+                    return View(product);
+                }
+            }
+            catch(Exception)
+            {
+
+            }
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Update(Product product, string originalImage)
+        {
+            try
+            {
+
+             if(product !=null)
+                {
+                    if (product.ImageFile == null)
+                    {
+                        product.ImagePath = originalImage;
+                    }
+                    else
+                    {
+                        product.ImagePath = UploadedFile(product);
+                    }
+
+
+
+                    product.Name = product.Name.ToUpper();
+                    product.Formula = product.Formula.ToUpper();
+                    product.Description = product.Description.ToUpper();
+                    product.UpdatedAt = DateTime.Now;
+                    //  product.Barcode = GenerateBarcode(product);
+                    _dbContext.Products.Update(product);
+                    _dbContext.SaveChanges();
+                    TempData["SMessage"] = "Success";
+                    return RedirectToAction("Index", "Product");
+
+                }
+                TempData["EMessage"] = "some error occured please try again lator !";
+                return RedirectToAction("Index", "Product");
+
+
+            }
+            catch (Exception)
+            {
+                TempData["EMessage"] = "some error occured please try again lator !";
+            }
+            return View();
+        }
+
+
+        #endregion Update
+
+        #region Delete
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                Product prod = _dbContext.Products.Find(id);
+                if (prod != null)
+                {
+
+                    _dbContext.Products.Remove(prod);
+                    _dbContext.SaveChanges();
+                    TempData["SMessage"] = "Deleted";
+                    return RedirectToAction("Index", "Product");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["SMessage"] = "some error occured please try lator !";
+            }
+
+            return View();
+        }
+
+
+        #endregion Delete
+
 
         #region Image Processing
         private string UploadedFile(Product model)
@@ -96,6 +218,9 @@ namespace Asp.NetProject.Controllers
 
 
         #region Generate Barcode
+
+
+        //Pending
      
         #endregion Generate Barcode
 
