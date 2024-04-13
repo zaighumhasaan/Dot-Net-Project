@@ -1,0 +1,165 @@
+﻿@model Asp.NetProject.Models.Sale
+
+@{
+    ViewData["Title"] = "AddSale";
+    IList<Product> ListProduct = ViewBag.ListProducts;
+    SelectList AllProducts = new SelectList(ListProduct, "ProductId", "Name");
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div class="alert alert-success text-center">Manage Sales</div>
+@if (ViewBag.SMessage != null)
+{
+    <div class="alert alert-success">@ViewBag.SMessage</div>
+}
+else if (ViewBag.EMessage != null)
+{
+    <div class="alert alert-warning">@ViewBag.EMessage</div>
+}
+<h2>Sale Date</h2>
+<div class="col-md-6 col-lg-12 col-sm-3">
+    <form asp-action="AddSale" id="saleform">
+        <input type="hidden" id="objData" name="objData" value="" />
+
+        <label>Sale Date</label>
+        <input type="datetime" value="@DateTime.Now.ToShortDateString()" id="saledate" />
+
+        <h2>Products Detail</h2>
+
+        <div class="row">
+            <div class="col-md-6"><label>Product Detail</label></div>
+            <div class="col-md-2"><label>Product Qty</label></div>
+            <div class="col-md-2"><label>Product Price</label></div>
+            <div class="col-md-2"><label>Total Price</label></div>
+        </div>
+        <div class="row parentdiv">
+            <div class="col-md-6">
+                @Html.DropDownList("ProductId", AllProducts, "Choose an Item", new { @class = "form-control input-sm" })
+            </div>
+            <div class="col-md-2">
+                <input type="number" step="any" id="Qty" value="0" class="form-control input-group-sm qty" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" readonly step="any" id="Price" value="0" class="form-control input-group-sm price" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" readonly step="any" id="TotalPrice" value="0" class="form-control input-group-sm totalprice" />
+            </div>
+        </div>
+
+
+        <div class="clearfix"></div>
+        <div class="appenditems"></div>
+        <div class="row mt-5">
+            <div class="offset-10 col-md-2">
+                <a href="#" id="additem" class="btn btn-success btn-sm"> Add More Item</a>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <span>Grand Total: Pkr  <span id="grandTotal">0.00</span></span>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <a href="#" id="salesubmit" class="btn btn-info btn-sm btn-block"> Add Sale</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="anotheritemdiv" style="display:none;">
+    <div class="row parentdiv mt-2">
+        <div class="col-md-6">
+            @Html.DropDownList("ProductId", AllProducts, "Choose an Item", new { @class = "form-control input-sm" })
+        </div>
+        <div class="col-md-2">
+            <input type="number" step="any" id="Qty" value="0" class="form-control input-group-sm qty" />
+        </div>
+        <div class="col-md-2">
+            <input type="number" readonly step="any" id="Price" value="0" class="form-control input-group-sm price" />
+        </div>
+        <div class="col-md-2">
+            <input type="number" readonly step="any" id="TotalPrice" value="0" class="form-control input-group-sm totalprice" />
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        $(document).on('change', ".qty,ProductId", function () {
+            /*    $(".qty, .price,.totalprice").change(function () {*/
+            //   var closestdiv = $(this).closest(".parentdiv");
+            //   var qty = parseFloat(closestdiv.find("#Qty").val());
+            // var price = parseFloat(closestdiv.find("#Price").val());
+            // var total = qty * price;
+            // closestdiv.find("#TotalPrice").val(total);
+            // AJAX request to fetch product price
+            var closestDiv = $(this).closest(".parentdiv");
+
+            var productId = closestDiv.find("select").val();
+
+            $.ajax({
+                url: '/Sale/GetProductPrice',
+                type: 'GET',
+                data: { productId: productId },
+                success: function (data) {
+                    closestDiv.find("#Price").val(data);
+                    var qty = parseFloat(closestDiv.find("#Qty").val());
+                    var total = qty * data;
+                    closestDiv.find("#TotalPrice").val(total);
+
+
+                    // Calculate grand total
+                    var grandTotal = 0;
+                    $('.parentdiv').each(function () {
+                        var totalPrice = parseFloat($(this).find("#TotalPrice").val());
+                        grandTotal += totalPrice;
+                    });
+                    $("#grandTotal").text(grandTotal.toFixed(2));
+
+                },
+                error: function () { }
+            });
+
+        });
+        $("#additem").click(function () {
+            var html = $(".anotheritemdiv").html();
+            $(".appenditems").append(html);
+        });
+        $(document).on('click', "#salesubmit", function () {
+            var itemsarray = new Array();
+            $('.parentdiv').each(function () {
+                var closestdiv = $(this);
+                if (closestdiv.find("#ProductId option:selected").val() != "" && closestdiv.find("#ProductId option:selected").val() != undefined && closestdiv.find("#ProductId option:selected").val() != null) {
+                    var obj = {
+                        "ProductId": closestdiv.find("#ProductId option:selected").val(),
+                        "Qty": closestdiv.find("#Qty").val(),
+                         "qty": parseFloat(closestdiv.find("#Qty").val()),
+                        "Price": closestdiv.find("#Price").val(),
+                    }
+                    console.log(obj);
+                    itemsarray.push(obj);
+                }
+
+            });
+
+            var objSale = {
+                "SaleDate": $("#saledate").val(),
+            }
+            var objMain = {
+                "objSale": objSale,
+                "ListSaleLine": itemsarray,
+            }
+            var jsonString = JSON.stringify(objMain);
+            $("#objData").val(jsonString);
+            $("#saleform").submit();
+            console.log(FinalSale);
+        })
+
+    </script>
+
+
+
+} 

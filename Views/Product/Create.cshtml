@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create";
     IList<ProductCategory> Listcategories = ViewBag.ListCategories;
     SelectList AllCategories = new SelectList(Listcategories, "CategoryId", "CategoryName");
+
 }
 
 <h1>Create</h1>
@@ -67,6 +68,7 @@
                 @Html.DropDownListFor(model => model.CategoryId, AllCategories, "Choose a category", new { @class = "form-control inout-sm" })
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
+
 
             <div class="form-group">
                 <label asp-for="PurchasePrice" class="control-label">Purchase Price</label>
