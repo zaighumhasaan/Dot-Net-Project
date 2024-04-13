@@ -295,7 +295,7 @@ namespace Asp.NetProject.Controllers
                     if (employee.Password == pass)
                     {
                         int empId = employee.EmployeeId;
-                        // Set the owner ID in session
+                        // Set the Employee ID in session
                         HttpContext.Session.SetInt32("EmployeeId", empId);
                         return RedirectToAction("AddSale", "Sale");
                     }

@@ -33,42 +33,53 @@ namespace Asp.NetProject.Controllers
         {
 
 
+
+            
             try
             {
-                ViewSales objMain = JsonConvert.DeserializeObject<ViewSales>(objData, new IsoDateTimeConverter());
-                var exSale = _dbContext.Sales.OrderByDescending(s => s.SaleId).FirstOrDefault();
-                objMain.objSale.CreatedAt = DateTime.Now;
-                _dbContext.Sales.Add(objMain.objSale);
-                _dbContext.SaveChanges();
-                var obj = objMain.objSale;
-                var totalPrice = 0;
-                var saleid = objMain.objSale.SaleId;
-                foreach (SaleLine product in objMain.ListSaleLine)
+                int? employeeId = HttpContext.Session.GetInt32("EmployeeId");
+
+                if(employeeId!=null)
                 {
+                    ViewSales objMain = JsonConvert.DeserializeObject<ViewSales>(objData, new IsoDateTimeConverter());
+                    var exSale = _dbContext.Sales.OrderByDescending(s => s.SaleId).FirstOrDefault();
+                    objMain.objSale.CreatedAt = DateTime.Now;
+                    objMain.objSale.EmployeeId = employeeId;
+                    _dbContext.Sales.Add(objMain.objSale);
+                    _dbContext.SaveChanges();
+                    var obj = objMain.objSale;
+                    var totalPrice = 0;
+                    var saleid = objMain.objSale.SaleId;
+                    foreach (SaleLine product in objMain.ListSaleLine)
+                    {
 
-                    product.SaleId = saleid;
-                    product.CreatedAt = DateTime.Now;
-                    Product objProduct = _dbContext.Products.Find(product.ProductId);
-                    product.UnitPrice = objProduct.Price;
+                        product.SaleId = saleid;
+                        product.CreatedAt = DateTime.Now;
+                        Product objProduct = _dbContext.Products.Find(product.ProductId);
+                        product.UnitPrice = objProduct.Price;
 
-                    product.Quantity = product.Quantity;
-                    product.TotalPrice = product.UnitPrice * product.Quantity;
+                        product.Quantity = product.Quantity;
+                        product.TotalPrice = product.UnitPrice * product.Quantity;
 
-                    _dbContext.SaleLines.Add(product);
+                        _dbContext.SaleLines.Add(product);
+                        _dbContext.SaveChanges();
+
+
+                        objProduct.StockQuantity = objProduct.StockQuantity - product.Quantity;
+                        totalPrice = (int)(objProduct.Price * product.Quantity);
+                        _dbContext.Products.Update(objProduct);
+                        _dbContext.SaveChanges();
+
+                    }
+                    objMain.objSale.TotalAmount = totalPrice;
+                    _dbContext.Sales.Update(objMain.objSale);
                     _dbContext.SaveChanges();
 
-
-                    objProduct.StockQuantity = objProduct.StockQuantity -product.Quantity;
-                    totalPrice = (int)(objProduct.Price * product.Quantity);
-                    _dbContext.Products.Update(objProduct);
-                    _dbContext.SaveChanges();
-
+                    TempData["SMessage"] = "Data Updated Successfully";
+                    return RedirectToAction("AddSale");
                 }
-                objMain.objSale.TotalAmount = totalPrice;
-                _dbContext.Sales.Update(objMain.objSale);
-                _dbContext.SaveChanges();
-
-                TempData["SMessage"] = "Data Updated Successfully";
+                TempData["SMessage"] = "some error occured please login again";
+                return RedirectToAction(nameof(OwnerController.Login));
             }
             catch (Exception)
             {
