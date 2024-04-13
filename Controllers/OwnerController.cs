@@ -17,6 +17,8 @@ namespace Asp.NetProject.Controllers
             webHostEnvironment = hostEnvironment;
         }
 
+        #region SignUp
+
         [HttpGet]
         public IActionResult SignUp()
         {
@@ -269,7 +271,9 @@ namespace Asp.NetProject.Controllers
             return View();
         }
 
-        #region Owner Login
+        #endregion SignUp
+ 
+        #region Owner Login 
 
         [HttpGet]
         public IActionResult Login()
@@ -282,44 +286,58 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
-                
-                var pass = HashPassword(model.Password);
+                Employee employee = _dbcontext.Employees.FirstOrDefault(emp =>emp.Email.ToUpper()==model.Email.ToUpper());
                 var user = _dbcontext.Owners.FirstOrDefault(u => u.Email.ToUpper() == model.Email.ToUpper());
-               
-                if (user == null)
+                if (employee != null)
                 {
-                    
+                    var pass = HashPassword(model.Password);
 
-
-
-
-                    ViewBag.EMessage = "Invalid email or password";
-                    return View();
-                }
-                else
-                {
-
-                    if(user.Password == pass)
+                    if (employee.Password == pass)
                     {
-                        int ownerId = user.OwnerId;
+                        int empId = employee.EmployeeId;
                         // Set the owner ID in session
-                        HttpContext.Session.SetInt32("OwnerId", ownerId);
-                        return RedirectToAction("AddStore", "Store");
+                        HttpContext.Session.SetInt32("EmployeeId", empId);
+                        return RedirectToAction("AddSale", "Sale");
                     }
 
                     ViewBag.EMessage = "Invalid email or password";
                     return View();
 
+
+                }
+                else if(user != null)
+                {
+                    var pass = HashPassword(model.Password);
+
+
+                        if (user.Password == pass)
+                        {
+                            int ownerId = user.OwnerId;
+                            // Set the owner ID in session
+                            HttpContext.Session.SetInt32("OwnerId", ownerId);
+                            return RedirectToAction("AddStore", "Store");
+                        }
+
+                        ViewBag.EMessage = "Invalid email or password";
+                        return View();
+
+                    
+
+
                 }
 
+                ViewBag.EMessage = "Invalid email or password";
+                return View();
 
-               
+
+
             }
             catch (Exception)
             {
                 ViewBag.EMessage = "Some error occurred. Please try again later.";
-                return View();
+               
             }
+            return View();
         }
 
       
