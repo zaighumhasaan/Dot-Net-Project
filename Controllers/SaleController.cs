@@ -40,15 +40,17 @@ namespace Asp.NetProject.Controllers
                 objMain.objSale.CreatedAt = DateTime.Now;
                 _dbContext.Sales.Add(objMain.objSale);
                 _dbContext.SaveChanges();
+                var obj = objMain.objSale;
                 var totalPrice = 0;
-
-                foreach(SaleLine product in objMain.ListSaleLine)
+                var saleid = objMain.objSale.SaleId;
+                foreach (SaleLine product in objMain.ListSaleLine)
                 {
-                    var saleid = objMain.objSale.SaleId;
+
                     product.SaleId = saleid;
                     product.CreatedAt = DateTime.Now;
                     Product objProduct = _dbContext.Products.Find(product.ProductId);
                     product.UnitPrice = objProduct.Price;
+
                     product.Quantity = product.Quantity;
                     product.TotalPrice = product.UnitPrice * product.Quantity;
 

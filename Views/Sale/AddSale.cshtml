@@ -135,8 +135,8 @@ else if (ViewBag.EMessage != null)
                 if (closestdiv.find("#ProductId option:selected").val() != "" && closestdiv.find("#ProductId option:selected").val() != undefined && closestdiv.find("#ProductId option:selected").val() != null) {
                     var obj = {
                         "ProductId": closestdiv.find("#ProductId option:selected").val(),
-                        "Qty": closestdiv.find("#Qty").val(),
-                         "qty": parseFloat(closestdiv.find("#Qty").val()),
+                        //"Qty": closestdiv.find("#Qty").val(),
+                         "Quantity": parseFloat(closestdiv.find("#Qty").val()),
                         "Price": closestdiv.find("#Price").val(),
                     }
                     console.log(obj);

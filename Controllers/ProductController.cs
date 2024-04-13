@@ -41,6 +41,14 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
+                var existingProduct = _dbContext.Products.FirstOrDefault(p => p.Name == product.Name);
+                if (existingProduct != null)
+                {
+                    TempData["EMessage"] = product.Name+" Product Alreadt Exists";
+                    return RedirectToAction("Create", "Product");
+                }
+
+
                 int? departmentId = HttpContext.Session.GetInt32("departmentId");
                 if(departmentId != null)
                 {
