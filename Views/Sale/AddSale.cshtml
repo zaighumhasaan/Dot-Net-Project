@@ -27,13 +27,14 @@ else if (ViewBag.EMessage != null)
         <h2>Products Detail</h2>
 
         <div class="row">
-            <div class="col-md-6"><label>Product Detail</label></div>
+            <div class="col-md-4"><label>Product Detail</label></div>
             <div class="col-md-2"><label>Product Qty</label></div>
             <div class="col-md-2"><label>Product Price</label></div>
+            <div class="col-md-2"><label>Stock Available</label></div>
             <div class="col-md-2"><label>Total Price</label></div>
         </div>
         <div class="row parentdiv">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 @Html.DropDownList("ProductId", AllProducts, "Choose an Item", new { @class = "form-control input-sm" })
             </div>
             <div class="col-md-2">
@@ -41,6 +42,9 @@ else if (ViewBag.EMessage != null)
             </div>
             <div class="col-md-2">
                 <input type="number" readonly step="any" id="Price" value="0" class="form-control input-group-sm price" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" readonly step="any" id="Stock" value="0" class="form-control input-group-sm stock" />
             </div>
             <div class="col-md-2">
                 <input type="number" readonly step="any" id="TotalPrice" value="0" class="form-control input-group-sm totalprice" />
@@ -69,7 +73,7 @@ else if (ViewBag.EMessage != null)
 </div>
 <div class="anotheritemdiv" style="display:none;">
     <div class="row parentdiv mt-2">
-        <div class="col-md-6">
+        <div class="col-md-4">
             @Html.DropDownList("ProductId", AllProducts, "Choose an Item", new { @class = "form-control input-sm" })
         </div>
         <div class="col-md-2">
@@ -77,6 +81,9 @@ else if (ViewBag.EMessage != null)
         </div>
         <div class="col-md-2">
             <input type="number" readonly step="any" id="Price" value="0" class="form-control input-group-sm price" />
+        </div>
+        <div class="col-md-2">
+            <input type="number" readonly step="any" id="Stock" value="0" class="form-control input-group-sm stock" />
         </div>
         <div class="col-md-2">
             <input type="number" readonly step="any" id="TotalPrice" value="0" class="form-control input-group-sm totalprice" />
@@ -105,6 +112,7 @@ else if (ViewBag.EMessage != null)
                 type: 'GET',
                 data: { productId: productId },
                 success: function (data) {
+
                     closestDiv.find("#Price").val(data);
                     var qty = parseFloat(closestDiv.find("#Qty").val());
                     var total = qty * data;
@@ -123,6 +131,27 @@ else if (ViewBag.EMessage != null)
                 error: function () { }
             });
 
+            //Ajax Stock Starts Here
+            $.ajax({
+                url: '/Sale/GetProductQty',
+                type: 'GET',
+                data: { productId: productId },
+                success: function (data) {
+
+                    if (data === 0) {
+                        closestDiv.find("#Stock").addClass("zero-stock");
+                    } else {
+                        closestDiv.find("#Stock").removeClass("zero-stock");
+                    }
+
+                    closestDiv.find("#Stock").val(data);
+                    var qty = parseFloat(closestDiv.find("#Stock").val());
+
+                },
+                error: function () { }
+            });
+            //Ajax Stock Ends Here
+
         });
         $("#additem").click(function () {
             var html = $(".anotheritemdiv").html();
@@ -136,7 +165,7 @@ else if (ViewBag.EMessage != null)
                     var obj = {
                         "ProductId": closestdiv.find("#ProductId option:selected").val(),
                         //"Qty": closestdiv.find("#Qty").val(),
-                         "Quantity": parseFloat(closestdiv.find("#Qty").val()),
+                        "Quantity": parseFloat(closestdiv.find("#Qty").val()),
                         "Price": closestdiv.find("#Price").val(),
                     }
                     console.log(obj);
@@ -160,6 +189,10 @@ else if (ViewBag.EMessage != null)
 
     </script>
 
-
+    <style>
+        .zero-stock {
+            color: red;
+        }
+    </style>
 
 } 

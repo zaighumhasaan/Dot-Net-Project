@@ -82,7 +82,7 @@ namespace Asp.NetProject.Controllers
 
         #endregion Create
 
-        #region Ajax Get Product Price
+        #region Ajax
 
         public ActionResult GetProductPrice(int productId)
         {
@@ -91,7 +91,16 @@ namespace Asp.NetProject.Controllers
             var productPrice =product.Price;
     return Json(productPrice);
         }
-        #endregion Ajax Get Product Price
+
+        public ActionResult GetProductQty(int productId)
+        {
+
+            Product product = _dbContext.Products.Find(productId);
+            var productqty = product.StockQuantity;
+            return Json(productqty);
+        }
+
+        #endregion Ajax 
 
 
         public IActionResult Index()

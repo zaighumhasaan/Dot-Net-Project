@@ -28,8 +28,6 @@ public partial class Employee
 
     public int? StoreId { get; set; }
 
-
-
     public DateOnly? StartDate { get; set; }
 
     public DateOnly? EndDate { get; set; }
@@ -41,6 +39,8 @@ public partial class Employee
     public DateTime? UpdatedAt { get; set; }
 
     public int? RoleId { get; set; }
+
+    public string? Password { get; set; }
 
     public virtual Role? Role { get; set; }
 
