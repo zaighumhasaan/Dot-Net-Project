@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "AddStore";
 }
-<h1 class="text-center bg-gradient-gray-dark">Create Store</h1>
+<h1 class="pageTitle">Create Store</h1>
 <hr />
 @if (ViewBag.SMessage != null)
 {
@@ -14,33 +14,40 @@
 {
     <div class="alert alert-warning">@ViewBag.EMessage</div>
 }
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddStore" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div id="formBody">
 
-            <div class="form-group">
+    <form asp-action="AddStore" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="StoreName" class="control-label"></label>
                 <input asp-for="StoreName" class="form-control" required="required" />
                 <span asp-validation-for="StoreName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" required="required" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+        </div>
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Location" class="control-label"></label>
                 <input asp-for="Location" class="form-control" required="required" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="City" class="control-label"></label>
                 <input asp-for="City" class="form-control" required="required" />
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group">
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Country">Country:</label>
                 <select id="country" asp-for="Country" name="country" class="form-control">
                     <option value="">Select Country</option>
@@ -53,44 +60,76 @@
                     }
                 </select>
             </div>
-
-
-
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Phone" class="control-label"></label>
                 <input asp-for="Phone" class="form-control" required="required" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+
+
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" required="required" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Website" class="control-label"></label>
                 <input asp-for="Website" class="form-control" required="required" />
                 <span asp-validation-for="Website" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="OpeningHours" class="control-label"></label>
                 <input asp-for="OpeningHours" class="form-control" required="required" />
                 <span asp-validation-for="OpeningHours" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="LogoFile" class="control-label"></label>
                 <input type="file" asp-for="LogoFile" class="form-control" />
                 <span asp-validation-for="LogoFile" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form><!---form ends here-->
-    </div>
+        </div>
+
+
+        <div class="form-group">
+            <input id="submit" type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form><!---form ends here-->
+
 </div>
 
+<style>
+
+    #formBody {
+        background-color: azure;
+        border: groove;
+    }
+    .form-control:hover {
+        background-color: rgb(225, 235, 228);
+    }
+    #submit {
+        height: 50px;
+        width: 200px;
+        margin: 0 auto;
+        display: block;
+        font-weight:900;
+    }
+
+    .pageTitle {
+        font-weight: 800;
+        text-align:center;
+    }
+</style>
+   
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back to List</a>
 </div>
 
 
