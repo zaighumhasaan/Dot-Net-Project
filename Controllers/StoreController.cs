@@ -243,11 +243,11 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
-                
+
                 int? ownerId = HttpContext.Session.GetInt32("OwnerId");
                 if (ownerId != null)
                 {
-         
+
                     store.OwnerId = ownerId;
                     store.Logo = UploadedFile(store);
                     store.StoreName = store.StoreName.ToUpper();
@@ -302,22 +302,22 @@ namespace Asp.NetProject.Controllers
         #region store detail
 
         [HttpGet]
-        public IActionResult StoreDetail(int id )
+        public IActionResult StoreDetail(int id)
         {
             try
             {
                 Store store = _dbcontext.Stores.Find(id);
-                if(store != null)
+                if (store != null)
                 {
                     int storeId = store.StoreId;
 
                     HttpContext.Session.SetInt32("StoreId", storeId);
-                   
+
                     return View(store);
                 }
-               
+
             }
-            catch(Exception)
+            catch (Exception)
             {
 
             }
@@ -351,7 +351,8 @@ namespace Asp.NetProject.Controllers
 
 
 
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 return View();
             }
@@ -359,16 +360,62 @@ namespace Asp.NetProject.Controllers
 
 
         }
-
         [HttpPost]
         public IActionResult UpdateStore(Store obj, string originalImage)
         {
             try
             {
-                
+                if (ModelState.IsValid) // Ensure model state is valid
+                {
+                    // Retrieve the existing store object from the database
+                    Store existingStore = _dbcontext.Stores.Find(obj.StoreId);
+                    if (existingStore == null)
+                    {
+                        return NotFound(); // Return 404 if store not found
+                    }
+
+                    // Update properties of the existing store with values from the form
+                    existingStore.StoreName = obj.StoreName;
+                    existingStore.Description = obj.Description;
+                    existingStore.Location = obj.Location;
+                    existingStore.City = obj.City;
+                    existingStore.Country = obj.Country;
+                    existingStore.Phone = obj.Phone;
+                    existingStore.Email = obj.Email;
+                    existingStore.Website = obj.Website;
+                    existingStore.OpeningHours = obj.OpeningHours;
+                    existingStore.UpdatedAt = DateTime.Now;
+
+                    // Update logo only if a new file is uploaded
+                    if (obj.LogoFile != null)
+                    {
+                        existingStore.Logo = UploadedFile(obj);
+                    }
+
+                    // Save changes to the database
+                    _dbcontext.SaveChanges();
+
+                    TempData["SMessage"] = "Data Updated Successfully";
+                    return RedirectToAction("Index", "Store");
+                }
+            }
+            catch (Exception)
+            {
+                TempData["EMessage"] = "Some error occurred. Please try again!";
+            }
+
+            return View(obj); // Return the form with errors if ModelState is not valid
+        }
+
+        /*[HttpPost]
+        public IActionResult UpdateStore(Store obj, string originalImage)
+        {
+            try
+            {
+
                 if (obj != null)
                 {
-                    if(obj.LogoFile==null)
+                    if (obj.LogoFile == null)
                     {
                         obj.Logo = originalImage;
                     }
@@ -377,11 +424,14 @@ namespace Asp.NetProject.Controllers
                         obj.Logo = UploadedFile(obj);
                     }
 
-                    
+
+
                     obj.UpdatedAt = DateTime.Now;
-                    _dbcontext.Stores.Update(obj);
+                    Store updatedStore = obj;
+                    _dbcontext.Stores.Update(updatedStore);
                     _dbcontext.SaveChanges();
                     TempData["SMessage"] = "Data Updated Successfully";
+                    return View();
                 }
             }
             catch (Exception)
@@ -392,7 +442,7 @@ namespace Asp.NetProject.Controllers
             return RedirectToAction("Index", "Store");
 
         }
-
+        */
         #endregion store update
 
 

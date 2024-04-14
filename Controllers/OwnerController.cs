@@ -315,7 +315,7 @@ namespace Asp.NetProject.Controllers
                             int ownerId = user.OwnerId;
                             // Set the owner ID in session
                             HttpContext.Session.SetInt32("OwnerId", ownerId);
-                            return RedirectToAction("AddStore", "Store");
+                            return RedirectToAction("Index", "Store");
                         }
 
                         ViewBag.EMessage = "Invalid email or password";

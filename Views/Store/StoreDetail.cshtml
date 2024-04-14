@@ -3,12 +3,80 @@
 @{
     ViewData["Title"] = "StoreDetail";
 }
+<h1 id="OwnerGreet">Zaighum Hassan</h1>
+<h1 class="text-center">Manage   Store</h1>
 
-<h1>StoreDetail</h1>
+<div class="mt-5">
 
-<div>
-    <h4>Store</h4>
-    <hr />
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>150</h3>
+
+                            <p>Employees</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a asp-controller="Employee" asp-action="Create" asp-route-id="@Model?.StoreId"  class="small-box-footer">Manage Employees <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                            <p>Departments</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a asp-controller="Department" asp-action="Index" asp-route-id="@Model?.StoreId" class="small-box-footer">Manage Department <i class="fas fa-arrow-circle-right"></i></a>
+                         </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>44</h3>
+
+                            <p>Store Detail</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a asp-controller="Store" asp-action="StoreDetail" asp-route-id="@Model?.StoreId" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>65</h3>
+
+                            <p>Unique Visitors</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.StoreName)
@@ -91,7 +159,6 @@
         </dt>
 
     </dl>
-</div>
 <div>
     <a asp-action="UpdateStore" asp-route-id="@Model?.StoreId">Edit</a> |
     <a asp-controller="Employee" asp-action="Create" asp-route-id="@Model?.StoreId">Manage Employee</a>|

@@ -34,6 +34,7 @@ public partial class PosContext : DbContext
     public virtual DbSet<Store> Stores { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=ZAIGEE\\SQLEXPRESS;Database=POS;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -203,6 +204,7 @@ public partial class PosContext : DbContext
 
             entity.HasOne(d => d.Department).WithMany(p => p.Products)
                 .HasForeignKey(d => d.DepartmentId)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_Product_Department");
         });
 
@@ -306,7 +308,7 @@ public partial class PosContext : DbContext
 
             entity.HasOne(d => d.Sale).WithMany(p => p.SaleLines)
                 .HasForeignKey(d => d.SaleId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK__SaleLine__SaleID__4AB81AF0");
         });
 

@@ -5,99 +5,182 @@
 }
 @if (ViewBag.SMessage != null)
 {
-    <div class="alert alert-success">@ViewBag.SMessage</div>
+    <div id="successMessage" class="alert alert-success">@ViewBag.SMessage</div>
 }@if (ViewBag.EMessage != null)
 {
-    <div class="alert alert-success">@ViewBag.EMessage</div>
+    <div id="errorMessage" class="alert alert-danger">@ViewBag.EMessage</div>
 }
 
-<h1 class="text text-center">Update Store</h1>
+<h1 class="text text-center pageTitle">Update Store Info</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateStore" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="StoreId" />
-            <div class="form-group">
+
+<div id="formBody">
+
+    <form asp-action="UpdateStore" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <input asp-for="OwnerId" class="form-control" hidden />
+            <span asp-validation-for="OwnerId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="StoreId" class="form-control" hidden />
+            <span asp-validation-for="StoreId" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="StoreName" class="control-label"></label>
                 <input asp-for="StoreName" class="form-control" />
                 <span asp-validation-for="StoreName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Location" class="control-label"></label>
                 <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="City" class="control-label"></label>
                 <input asp-for="City" class="form-control" />
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Country" class="control-label"></label>
                 <input asp-for="Country" class="form-control" />
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Phone" class="control-label"></label>
                 <input asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Website" class="control-label"></label>
                 <input asp-for="Website" class="form-control" />
                 <span asp-validation-for="Website" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="OpeningHours" class="control-label"></label>
-                <input asp-for="OpeningHours" class="form-control" />
+                <input type="date" asp-for="OpeningHours" class="form-control" />
                 <span asp-validation-for="OpeningHours" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="UpdatedAt" class="control-label"></label>
                 <input asp-for="UpdatedAt" class="form-control" />
                 <span asp-validation-for="UpdatedAt" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+
+            <div class="col-6">
+                <label asp-for="CreatedAt" class="control-label"></label>
+                <input asp-for="CreatedAt" class="form-control" />
+                <span asp-validation-for="CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="col-4">
                 <label asp-for="LogoFile" class="control-label">Change Picture</label>
                 <input type="file" asp-for="LogoFile" class="form-control" />
                 <span asp-validation-for="LogoFile" class="text-danger"></span>
-                @if (!string.IsNullOrEmpty(Model.Logo)) // Check if Logo exists
+
+            </div>
+            <div class="col-2">
+                @if (Model != null && !string.IsNullOrEmpty(Model.Logo))
                 {
-                    <img src="~/images/@Model.Logo" style="width: 110px; height:100px" />
+
+                    @if (!string.IsNullOrEmpty(Model.Logo)) // Check if Logo exists
+                    {
+                        <img src="~/images/@Model.Logo" style="width: 110px; height:100px" />
+                    }
+                    <input type="hidden" name="originalImage" value="@Model.Logo" />
+
                 }
-                <input type="hidden" name="originalImage" value="@Model.Logo" />
-
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" id="submit" value="Save" class="btn  btn-primary" />
+        </div>
+    </form>
+
 </div>
-
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
+<style>
+
+    #formBody {
+        background-color: azure;
+        border: groove;
+    }
+
+    #submit {
+        height: 50px;
+        width: 200px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .pageTitle {
+        font-weight: 800;
+    }
+</style>
+<script>
+    // Function to show and hide messages after 5 seconds
+    function hideMessages() {
+        // Success message
+        var successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            successMessage.style.display = 'block'; // Show the message
+            setTimeout(function () {
+                successMessage.style.display = 'none'; // Hide the message after 5 seconds
+            }, 5000);
+        }
+
+        // Error message
+        var errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+            errorMessage.style.display = 'block'; // Show the message
+            setTimeout(function () {
+                errorMessage.style.display = 'none'; // Hide the message after 5 seconds
+            }, 5000);
+        }
+    }
+
+    // Call the function after the DOM has fully loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        hideMessages();
+    });
+</script>
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }

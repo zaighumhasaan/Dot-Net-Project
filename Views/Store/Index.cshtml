@@ -4,118 +4,63 @@
     ViewData["Title"] = "Index";
 }
 
+<div id="createBtn">
+    <a asp-action="AddStore" class="mt-2 mb-2 btn btn-secondary btn-sm"><strong>Create New Store</strong></a>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+</div>
 
-@if(ViewBag.SMeesage != null)
+
+
+@if (ViewBag.SMeesage != null)
 {
-
-    <div class="alert alert-success" >@ViewBag.SMeesage </div>
-}
- @if(ViewBag.EMessage != null)
- {
-     <div class="alert alert-primary">@ViewBag.EMessage</div>
+    <div class="alert alert-success">@ViewBag.SMeesage</div>
 }
 
-<table class="table table-bordered table-hover table-responsive text-nowrap">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.StoreName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Country)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Website)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OpeningHours)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Owner)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Logo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StoreName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Country)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Website)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OpeningHours)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Profit)
-                </td>
-                <td>
-                    <img src="../images/@Html.DisplayFor(modelItem => item.Logo)" style="width:100px; height:100px" />
-                </td>
-                <td>
-                    <a asp-action="UpdateStore" asp-route-id="@item.StoreId" class="btn btn-info btn-sm">Edit</a> |
-                    <a asp-action="StoreDetail" asp-route-id="@item.StoreId" class="btn btn-success btn-sm">Details</a> |
-                    <a asp-action="DeleteStore" asp-route-id="@item.StoreId" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@if (ViewBag.EMessage != null)
+{
+    <div class="alert alert-primary">@ViewBag.EMessage</div>
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title cardTitle">@item.StoreName</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text"><strong>Location:</strong> @item.City @item.Country</p>
+                    <p class="card-text"><strong>Phone:</strong> @item.Phone </p>
+                    <div id="btn">
+                        <a asp-action="UpdateStore" asp-route-id="@item.StoreId" class="btn btn-info btn-sm">Edit</a> |
+                        <a asp-action="StoreDetail" asp-route-id="@item.StoreId" class="btn btn-success btn-sm">Details</a> |
+                        <a asp-action="StoreDetail" asp-route-id="@item.StoreId" class="btn btn-success btn-sm">Manage</a> |
+                        <a asp-action="DeleteStore" asp-route-id="@item.StoreId" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+}
+</div>
+
+<!-- CSS for hover effect -->
+<style>
+    .cardTitle {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #createBtn {
+        text-align: center;
+    }
+
+    #btn {
+        text-align: center;
+    }
+
+    .card:hover {
+        box-shadow: 5px 8px 12px 0 rgba(230, 184, 85);
+        transition: 0.30s;
+    }
+</style>
