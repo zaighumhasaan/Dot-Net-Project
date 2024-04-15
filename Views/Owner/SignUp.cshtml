@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "SignUp";
+    Layout = "_Layout";
 }
 
 <h1>SignUp</h1>
@@ -15,27 +16,31 @@
     <div class="alert alert-danger">@ViewBag.EMessage </div>
 }
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="SignUp" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+<div id="formBody">
+    <form asp-action="SignUp" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="FirstName" class="control-label">First Name</label>
+                <input placeholder="enter first name" asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+            <div class="col">
+                <label asp-for="LastName" class="control-label">Last Name</label>
+                <input placeholder="enter last name" asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input type="date" asp-for="DateOfBirth" class="form-control" />
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="DateOfBirth" class="control-label">Date Of Birth</label>
+                <input placeholder="enter date of birth" type="date" asp-for="DateOfBirth" class="form-control" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
+            <div class="col">
+                <label asp-for="Gender" class="control-label">Gender</label>
                 <select asp-for="Gender" class="form-control">
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
@@ -44,27 +49,37 @@
                 </select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class=" col">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input placeholder="enter email" asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
+
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
+                <input placeholder="enter phone number" asp-for="Phone" class="form-control" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
+                <input placeholder="enter address" asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
+                <input placeholder="enter city" asp-for="City" class="form-control" />
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Country">Country:</label>
                 <select id="country" asp-for="Country" name="country" class="form-control">
                     <option value="">Select Country</option>
@@ -77,31 +92,51 @@
                     }
                 </select>
             </div>
-            <div class="form-group">
-                <label asp-for="PostalCode" class="control-label"></label>
-                <input asp-for="PostalCode" class="form-control" />
+            <div class="col">
+                <label asp-for="PostalCode" class="control-label">Postal Code</label>
+                <input placeholder="enter postal code" asp-for="PostalCode" class="form-control" />
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <div class="input-group">
+                    <input placeholder="enter password" id="passwordInput" type="password" asp-for="Password" class="form-control" />
+                    <div class="input-group-append">
+                        <button id="togglePassword" class="btn btn-outline-secondary" type="button">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LogoFile" class="control-label"></label>
+
+            <div class="col">
+                <label asp-for="LogoFile" class="control-label">Image</label>
                 <input type="file" asp-for="LogoFile" class="form-control" />
                 <span asp-validation-for="LogoFile" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+
+        <div class="form-group" id="submitButton">
+            <input type="submit" value="Create" class="btn btn-outline-info " />
+            <a asp-action="Login" class="btn btn-outline-info ml-5">Login</a>
+
+        </div>
+        
+    </form>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<style>
+    #submitButton
+    {
+        text-align:center;
+    }
+</style>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
