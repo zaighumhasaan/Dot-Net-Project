@@ -47,7 +47,7 @@
                     <th>Created At</th>
                     <td>@Html.DisplayFor(model => model.CreatedAt)</td>
                 </tr>
-                <tr>
+                <tr hidden>
                     <th>Updated At</th>
                     <td>@Html.DisplayFor(model => model.UpdatedAt)</td>
                 </tr>
@@ -68,7 +68,7 @@
 
 <div>
     <a asp-action="UpdateStore" asp-route-id="@Model?.StoreId" class="btn btn-info btn-sm">Edit</a> |
-    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back</a>
 </div>
 
 <style>

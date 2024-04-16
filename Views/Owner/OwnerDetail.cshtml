@@ -3,95 +3,68 @@
 @{
     ViewData["Title"] = "OwnerDetail";
 }
-
-<h1>OwnerDetail</h1>
-
-<div>
-    <h4>Owner</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PostalCode)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dt class="col-sm-2">
-            <img src="~/images/@Html.DisplayFor(model=>model.Image)" style="width: 110px; height:100px" ; />
-
-        </dt>
-    </dl>
+<div class="row">
+    <div class="col-md-5 mt-3">
+        <a asp-action="Home" asp-controller="Store" asp-route-id="@Model?.OwnerId" class="btn btn-outline-info btn-sm">Home</a> |
+        <a asp-action="UpdateOwner" asp-route-id="@Model?.OwnerId" class="btn btn-outline-info btn-sm">Edit</a> |
+        <a asp-action="DeleteOwner" asp-route-id="@Model?.OwnerId" class="btn btn-outline-info btn-sm">Delete</a>
+    </div>
+    <div class="col-md-7">
+        <h1 class="text-center "><strong>Owner Detail</strong></h1>
+    </div>
 </div>
-<div>
-    <a asp-action="UpdateStore" asp-route-id="@Model?.OwnerId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+
+<div class="container">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>First Name</th>
+                <td>@Html.DisplayFor(model => model.FirstName)</td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td>@Html.DisplayFor(model => model.LastName)</td>
+            </tr>
+            <tr>
+                <th>Date of Birth</th>
+                <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>@Html.DisplayFor(model => model.Gender)</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>@Html.DisplayFor(model => model.Email)</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>@Html.DisplayFor(model => model.Phone)</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>@Html.DisplayFor(model => model.Address)</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>@Html.DisplayFor(model => model.City)</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>@Html.DisplayFor(model => model.Country)</td>
+            </tr>
+            <tr>
+                <th>Postal Code</th>
+                <td>@Html.DisplayFor(model => model.PostalCode)</td>
+            </tr>
+
+            <tr>
+                <th>Image</th>
+                <td><img src="~/images/@Html.DisplayFor(model=>model.Image)" style="width: 110px; height:100px" ; /></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+

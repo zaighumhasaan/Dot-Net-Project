@@ -16,14 +16,27 @@ namespace Asp.NetProject.Controllers
             _dbcontext = dbcontext;
             webHostEnvironment = hostEnvironment;
         }
+        [HttpGet]
         public IActionResult Index()
         {
             ViewBag.SMeesage = TempData["SMessage"];
             ViewBag.EMessage = TempData["EMessage"];
             int? ownerId = HttpContext.Session.GetInt32("OwnerId");
-
+            ViewBag.OwnerId = ownerId;
             var stores = (from s in _dbcontext.Stores
                           where s.OwnerId == ownerId
+                          select s).ToList();
+
+            return View(stores);
+        }
+        [HttpGet]
+        public IActionResult Home(int id)
+        {
+            ViewBag.SMeesage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
+            ViewBag.OwnerId = id;
+            var stores = (from s in _dbcontext.Stores
+                          where s.OwnerId == id
                           select s).ToList();
 
             return View(stores);

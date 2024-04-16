@@ -2,6 +2,7 @@
 using Asp.NetProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -327,7 +328,7 @@ namespace Asp.NetProject.Controllers
 
                 }
 
-                ViewBag.EMessage = "Invalid email or password";
+                ViewBag.EMessage = "user with "+model.Email+" does not exists ";
                 return View();
 
 
@@ -406,7 +407,7 @@ namespace Asp.NetProject.Controllers
             {
                 TempData["EMessage"] = "Some error occured";
             }
-            return RedirectToAction(nameof(StoreController.Index));
+            return RedirectToAction(nameof(OwnerController.SignUp));
 
 
         }
@@ -443,10 +444,10 @@ namespace Asp.NetProject.Controllers
             }
             catch (Exception)
             {
-                return View();
+                ViewBag.EMessage = "some error occured !";
             }
 
-
+            return View();
 
         }
 
@@ -493,7 +494,7 @@ namespace Asp.NetProject.Controllers
             }
 
 
-            return RedirectToAction("Index", "Owner");
+            return RedirectToAction("Index", "Store", new { id = obj.OwnerId });
         }
         #endregion store update
 

@@ -23,12 +23,12 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="FirstName" class="control-label">First Name</label>
-                <input placeholder="enter first name" asp-for="FirstName" class="form-control" />
+                <input placeholder="enter first name" asp-for="FirstName" class="form-control" required/>
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="col">
                 <label asp-for="LastName" class="control-label">Last Name</label>
-                <input placeholder="enter last name" asp-for="LastName" class="form-control" />
+                <input placeholder="enter last name" asp-for="LastName" class="form-control" required/>
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
         </div>
@@ -36,12 +36,12 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="DateOfBirth" class="control-label">Date Of Birth</label>
-                <input placeholder="enter date of birth" type="date" asp-for="DateOfBirth" class="form-control" />
+                <input placeholder="enter date of birth" type="date" asp-for="DateOfBirth" class="form-control" required/>
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="col">
                 <label asp-for="Gender" class="control-label">Gender</label>
-                <select asp-for="Gender" class="form-control">
+                <select asp-for="Gender" class="form-control" required>
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -54,13 +54,13 @@
         <div class="form-group row">
             <div class=" col">
                 <label asp-for="Email" class="control-label"></label>
-                <input placeholder="enter email" asp-for="Email" class="form-control" />
+                <input placeholder="enter email" asp-for="Email" class="form-control" required/>
                 <span asp-validation-for="Email" class="text-danger"></span>
 
             </div>
             <div class="col">
                 <label asp-for="Phone" class="control-label"></label>
-                <input placeholder="enter phone number" asp-for="Phone" class="form-control" />
+                <input placeholder="enter phone number" asp-for="Phone" class="form-control" required/>
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
         </div>
@@ -68,12 +68,12 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="Address" class="control-label"></label>
-                <input placeholder="enter address" asp-for="Address" class="form-control" />
+                <input placeholder="enter address" asp-for="Address" class="form-control" required/>
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="col">
                 <label asp-for="City" class="control-label"></label>
-                <input placeholder="enter city" asp-for="City" class="form-control" />
+                <input placeholder="enter city" asp-for="City" class="form-control" required/>
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
         </div>
@@ -81,7 +81,7 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="Country">Country:</label>
-                <select id="country" asp-for="Country" name="country" class="form-control">
+                <select id="country" asp-for="Country" name="country" class="form-control" required>
                     <option value="">Select Country</option>
                     @if (ViewBag.Countries != null)
                     {
@@ -94,7 +94,7 @@
             </div>
             <div class="col">
                 <label asp-for="PostalCode" class="control-label">Postal Code</label>
-                <input placeholder="enter postal code" asp-for="PostalCode" class="form-control" />
+                <input placeholder="enter postal code" asp-for="PostalCode" class="form-control" required/>
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
         </div>
@@ -103,7 +103,7 @@
             <div class="col">
                 <label asp-for="Password" class="control-label"></label>
                 <div class="input-group">
-                    <input placeholder="enter password" id="passwordInput" type="password" asp-for="Password" class="form-control" />
+                    <input placeholder="enter password" id="passwordInput" type="password" asp-for="Password" class="form-control" required/>
                     <div class="input-group-append">
                         <button id="togglePassword" class="btn btn-outline-secondary" type="button">
                             <i class="fa fa-eye"></i>
@@ -115,7 +115,7 @@
 
             <div class="col">
                 <label asp-for="LogoFile" class="control-label">Image</label>
-                <input type="file" asp-for="LogoFile" class="form-control" />
+                <input type="file" asp-for="LogoFile" class="form-control" required/>
                 <span asp-validation-for="LogoFile" class="text-danger"></span>
             </div>
         </div>

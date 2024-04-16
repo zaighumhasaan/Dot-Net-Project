@@ -5,97 +5,109 @@
 }
 
 
-<h4>Owner</h4>
+<h4 class="text-center"><strong>Update Profile</strong></h4>
 @if (ViewBag.SMessage != null)
 {
-<div class="alert alert-success">@ViewBag.SMessage </div>
+    <div class="alert alert-success">@ViewBag.SMessage </div>
 }
 @if (ViewBag.EMessage != null)
 {
-<div class="alert alert-danger">@ViewBag.EMessage </div>
+    <div class="alert alert-danger">@ViewBag.EMessage </div>
 }
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateOwner" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="OwnerId" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
+<div id="formBody">
+    <form asp-action="UpdateOwner" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="OwnerId" />
+
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="FirstName" class="control-label">First Name</label>
+                <input asp-for="FirstName" class="form-control" required/>
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
+            <div class="col">
+                <label asp-for="LastName" class="control-label">Last Name</label>
+                <input asp-for="LastName" class="form-control" required/>
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="DateOfBirth" class="control-label">Date Of Birth</label>
+                <input asp-for="DateOfBirth" class="form-control" required/>
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
+                <input asp-for="Gender" class="form-control" required/>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" required/>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
+                <input asp-for="Phone" class="form-control" required/>
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
+                <input asp-for="Address" class="form-control" required/>
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
+            <div class="col">
+                <div class="col">
 
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                        <label asp-for="Password" class="control-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" id="password" asp-for="Password" class="form-control" required/>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i id="icon" class="fa fa-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                  
+                </div>
             </div>
+        </div>
 
-            <div class="form-group">
+
+
+        <div class="form-group row">
+            <div class="col">
                 <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
+                <input asp-for="City" class="form-control" required/>
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="col">
                 <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
+                <input asp-for="Country" class="form-control" required/>
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PostalCode" class="control-label"></label>
-                <input asp-for="PostalCode" class="form-control" />
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="PostalCode" class="control-label">Postal Code</label>
+                <input asp-for="PostalCode" class="form-control" required/>
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedAt" class="control-label"></label>
-                <input asp-for="UpdatedAt" class="form-control" />
-                <span asp-validation-for="UpdatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
+            <div class="col">
                 <label asp-for="LogoFile" class="control-label">Change Picture</label>
-                <input type="file" asp-for="LogoFile" class="form-control" />
+                <input type="file" asp-for="LogoFile" class="form-control"/>
                 <span asp-validation-for="LogoFile" class="text-danger"></span>
                 @if (!string.IsNullOrEmpty(Model.Image)) // Check if Logo exists
                 {
@@ -104,21 +116,47 @@
                 <input type="hidden" name="originalImage" value="@Model.Image" />
 
             </div>
+        </div>
+
+
+
+        <div class="form-group">
+
+
+        </div>
 
 
 
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        <div class="form-group text-center">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<style>
+    #formBody {
+        background-color: azure;
+    }
+</style>
 
 @section Scripts {
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            var passwordField = document.getElementById('password');
+            var icon = document.getElementById('icon');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
