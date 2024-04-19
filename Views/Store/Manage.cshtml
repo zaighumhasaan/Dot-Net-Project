@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Asp.NetProject.Models.Store>
+
+@{
+    ViewData["Title"] = "Manage";
+    IEnumerable<Department> departments = ViewBag.Department as IEnumerable<Department>;
+    IEnumerable<Employee> employees = ViewBag.Employee as IEnumerable<Employee>;
+}
+
+@if (ViewBag.SMessage != null)
+{
+    <div class="alert alert-success ">@ViewBag.SMessage</div>
+}
+
+@if (ViewBag.EMessage != null)
+{
+    <div class="alert alert-warning">@ViewBag.EMessage</div>
+}
+
+<h2 class="headingTitle">Manage Departments </h2>
+<a asp-action="Create" asp-controller="Department" asp-route-id="@ViewBag.StoreId" class="btn btn-outline-success btn-sm">Create Department</a>
+<div class="row">
+    @foreach (var department in departments)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>@department.DepartmentName</strong></h5>
+                    <p class="card-text">@department.Description</p>
+                    <a asp-action="Detail" asp-controller="Department" asp-route-id="@department.DepartmentId" class="btn btn-outline-success btn-sm">Manage</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<hr />
+<h2 class="headingTitle">Manage Employees</h2>
+<a asp-action="Create" asp-controller="Employee" asp-route-id="@ViewBag.StoreId" class="btn btn-outline-success btn-sm">Create Employee</a>
+<div class="row">
+    @foreach (var employee in ViewBag.Employee)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>@employee.Employee.FirstName @employee.Employee.LastName</strong></h5>
+                    <p class="card-text">@employee.RoleName</p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<style>
+
+    .headingTitle {
+        text-align: center;
+        margin-top: 1px;
+        color: cornflowerblue;
+    }
+
+    .btn {
+        margin-bottom: 4px;
+    }
+</style>

@@ -33,7 +33,7 @@ namespace Asp.NetProject.Controllers
                 storeId = HttpContext.Session.GetInt32("StoreId");
                 if(storeId == null)
                 {
-                    ViewBag.EMessage = "some error occured please try again lator !";
+                    ViewBag.EMessage = "some error occured please login again !";
                     return View();
                 }
                 else
@@ -157,7 +157,8 @@ namespace Asp.NetProject.Controllers
                     _dbcontext.Departments.Update(dep);
                     _dbcontext.SaveChanges();
                     TempData["SMessage"] = "Updated";
-                    return RedirectToAction("Create","Department");
+                    //                    return RedirectToAction("Create","Department");
+                    return RedirectToAction("Manage", "Store", new { id = dep.StoreId });
                 }
                 TempData["EMessage"] = "some error occured please try again lator !";
                 return RedirectToAction("Create", "Department");

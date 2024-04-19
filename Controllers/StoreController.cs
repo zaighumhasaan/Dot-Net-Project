@@ -493,5 +493,35 @@ namespace Asp.NetProject.Controllers
 
         #endregion delete Store 
 
+        #region Manage
+        [HttpGet]
+        public ActionResult Manage(int id)
+        {
+            HttpContext.Session.SetInt32("StoreId", id);
+
+            ViewBag.SMessage = TempData["SMessage"];
+            ViewBag.EMessage = TempData["EMessage"];
+
+            ViewBag.StoreId = id;
+            ViewBag.Department = _dbcontext.Departments.Where(d => d.StoreId == id).ToList();
+            ViewBag.Employee = _dbcontext.Employees
+       .Where(e => e.StoreId == id)
+       .Select(e => new
+       {
+           EmployeeId = e.EmployeeId,
+           Employee = e,
+           RoleName = e.Role.RoleName, // Assuming RoleName is a property of the Role entity
+       })
+       .ToList();
+
+            return View();
+        }
+
+
+
+
+
+        #endregion Manage
+
     }
 }
