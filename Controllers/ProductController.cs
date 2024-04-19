@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using IronBarCode;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.CodeAnalysis;
 namespace Asp.NetProject.Controllers
 
 {
@@ -17,13 +18,26 @@ namespace Asp.NetProject.Controllers
         }
 
         #region List
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
+
+            var department = _dbContext.Departments.FirstOrDefault(d => d.DepartmentId == id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            // Retrieve products belonging to the department
+            TempData["depId"] = id;
+            var products = _dbContext.Products.Where(p => p.DepartmentId == department.DepartmentId).ToList();
+
             ViewBag.SMessage = TempData["SMessage"];
             ViewBag.EMessage = TempData["EMessage"];
 
-            return View(_dbContext.Products.ToList());
+            return View(products);
         }
+
         #endregion List
 
 
@@ -41,42 +55,49 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
-                var existingProduct = _dbContext.Products.FirstOrDefault(p => p.Name == product.Name);
-                if (existingProduct != null)
+                int depId = (int)TempData["depId"];
+                int? departmentId = HttpContext.Session.GetInt32("departmentId");
+
+                if (departmentId == null)
                 {
-                    TempData["EMessage"] = product.Name+" Product Alreadt Exists";
-                    return RedirectToAction("Create", "Product");
+                    departmentId = depId;
                 }
 
-
-                int? departmentId = HttpContext.Session.GetInt32("departmentId");
-                if(departmentId != null)
+                if (departmentId != null)
                 {
+                    // Check if the product already exists in the department
+                    var existingProduct = _dbContext.Products.FirstOrDefault(p => p.Name.ToUpper() == product.Name.ToUpper() && p.DepartmentId == departmentId);
+                    if (existingProduct != null)
+                    {
+                        TempData["EMessage"] = product.Name + " product already exists in this department.";
+                        return RedirectToAction("Create", "Product");
+                    }
 
+                    // Continue with creating the product
                     product.Name = product.Name.ToUpper();
                     product.Formula = product.Formula.ToUpper();
                     product.Description = product.Description.ToUpper();
                     product.CreatedAt = DateTime.Now;
-                  //  product.Barcode = GenerateBarcode(product);
                     product.ImagePath = UploadedFile(product);
                     product.DepartmentId = departmentId;
+
                     _dbContext.Products.Add(product);
                     _dbContext.SaveChanges();
-                    TempData["SMessage"] = "Success";
-                    return RedirectToAction("Create", "Product");
 
-
+                    TempData["SMessage"] = "Product created successfully.";
+                    return RedirectToAction("Index", "Product",new { id= departmentId });
                 }
-                TempData["EMessage"] = "please login again and try again";
-                return RedirectToAction("Create", "Product");
 
+                TempData["EMessage"] = "Please login again and try again.";
+                return RedirectToAction("Create", "Product");
             }
-            catch(Exception)
+            catch (Exception)
             {
-                TempData["EMessage"] = "some error occured please try again lator !";
+                TempData["EMessage"] = "Some error occurred. Please try again later.";
             }
             return View();
         }
+
         #endregion Create
 
 
@@ -86,8 +107,12 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
+                var product = _dbContext.Products
+                    .Include(p => p.Category) // Include the Category navigation property
+                    .Include(p => p.Department) // Include the Department navigation property
+                    .FirstOrDefault(p => p.ProductId ==id);
 
-                Product product = _dbContext.Products.Find(id);
+                //Product product = _dbContext.Products.Find(id);
                 if (product != null)
                 {
                     return View(product);
@@ -117,6 +142,8 @@ namespace Asp.NetProject.Controllers
 
                 if(product!=null)
                 {
+                    TempData["depId"] = product.DepartmentId;
+
                     ViewBag.ListCategories = _dbContext.ProductCategories.ToList();
                     return View(product);
                 }
@@ -135,6 +162,7 @@ namespace Asp.NetProject.Controllers
 
              if(product !=null)
                 {
+                    product.DepartmentId =(int) TempData["depId"];
                     if (product.ImageFile == null)
                     {
                         product.ImagePath = originalImage;
@@ -154,7 +182,10 @@ namespace Asp.NetProject.Controllers
                     _dbContext.Products.Update(product);
                     _dbContext.SaveChanges();
                     TempData["SMessage"] = "Success";
-                    return RedirectToAction("Index", "Product");
+                    var department = _dbContext.Departments.FirstOrDefault(d => d.DepartmentId == product.DepartmentId);
+                    
+
+                    return RedirectToAction("Index", "Product", new { id = department.DepartmentId});
 
                 }
                 TempData["EMessage"] = "some error occured please try again lator !";
@@ -179,13 +210,15 @@ namespace Asp.NetProject.Controllers
             try
             {
                 Product prod = _dbContext.Products.Find(id);
+                int departmentId =(int)prod.DepartmentId;
                 if (prod != null)
                 {
 
                     _dbContext.Products.Remove(prod);
                     _dbContext.SaveChanges();
                     TempData["SMessage"] = "Deleted";
-                    return RedirectToAction("Index", "Product");
+                    return RedirectToAction("Index", "Product", new { id = departmentId });
+
                 }
             }
             catch (Exception)

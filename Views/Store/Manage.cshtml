@@ -8,12 +8,16 @@
 
 @if (ViewBag.SMessage != null)
 {
-    <div class="alert alert-success ">@ViewBag.SMessage</div>
+    <div class=" row">
+        <div id="successMessage" class="alert alert-success col-4">@ViewBag.SMessage</div>
+    </div>
 }
 
 @if (ViewBag.EMessage != null)
 {
-    <div class="alert alert-warning">@ViewBag.EMessage</div>
+    <div class="row">
+        <div id="errorMessage" class="alert alert-primary col-4">@ViewBag.EMessage</div>
+    </div>
 }
 
 <h2 class="headingTitle">Manage Departments </h2>
@@ -27,6 +31,7 @@
                     <h5 class="card-title"><strong>@department.DepartmentName</strong></h5>
                     <p class="card-text">@department.Description</p>
                     <a asp-action="Detail" asp-controller="Department" asp-route-id="@department.DepartmentId" class="btn btn-outline-success btn-sm">Manage</a>
+                    <a asp-action="Index" asp-controller="Product" asp-route-id="@department.DepartmentId" class="btn btn-outline-success btn-sm">Products</a>
                 </div>
             </div>
         </div>
@@ -62,3 +67,21 @@
         margin-bottom: 4px;
     }
 </style>
+
+@section Scripts {
+    <script>
+        // Function to hide success message after 5 seconds
+        window.setTimeout(function () {
+            $("#successMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+
+        // Function to hide error message after 5 seconds
+        window.setTimeout(function () {
+            $("#errorMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+    </script>
+}
