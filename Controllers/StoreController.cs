@@ -504,15 +504,11 @@ namespace Asp.NetProject.Controllers
 
             ViewBag.StoreId = id;
             ViewBag.Department = _dbcontext.Departments.Where(d => d.StoreId == id).ToList();
+
             ViewBag.Employee = _dbcontext.Employees
-       .Where(e => e.StoreId == id)
-       .Select(e => new
-       {
-           EmployeeId = e.EmployeeId,
-           Employee = e,
-           RoleName = e.Role.RoleName, // Assuming RoleName is a property of the Role entity
-       })
-       .ToList();
+    .Include(e => e.Role) // Include the Role navigation property
+    .Where(e => e.StoreId == id && e.Role != null) // Ensure Role is not null
+    .ToList();
 
             return View();
         }

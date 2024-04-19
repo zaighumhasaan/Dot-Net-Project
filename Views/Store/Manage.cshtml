@@ -28,10 +28,11 @@
         <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><strong>@department.DepartmentName</strong></h5>
+                    <h5 class="card-title"><strong>@department.DepartmentName Department</strong></h5>
                     <p class="card-text">@department.Description</p>
                     <a asp-action="Detail" asp-controller="Department" asp-route-id="@department.DepartmentId" class="btn btn-outline-success btn-sm">Manage</a>
                     <a asp-action="Index" asp-controller="Product" asp-route-id="@department.DepartmentId" class="btn btn-outline-success btn-sm">Products</a>
+                    <a asp-action="Index" asp-controller="ProductCategory" class="btn btn-outline-success btn-sm">Product Category</a>
                 </div>
             </div>
         </div>
@@ -41,13 +42,16 @@
 <h2 class="headingTitle">Manage Employees</h2>
 <a asp-action="Create" asp-controller="Employee" asp-route-id="@ViewBag.StoreId" class="btn btn-outline-success btn-sm">Create Employee</a>
 <div class="row">
-    @foreach (var employee in ViewBag.Employee)
+    @foreach (var employee in employees)
     {
         <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><strong>@employee.Employee.FirstName @employee.Employee.LastName</strong></h5>
-                    <p class="card-text">@employee.RoleName</p>
+                    <h5 class="card-title"><strong>@employee.FirstName @employee.LastName</strong></h5>
+                    <p class="card-text">@employee.Role.RoleName</p>
+                    <a asp-action="Update" asp-controller="Employee" asp-route-id="@employee.EmployeeId" class="btn btn-outline-success btn-sm">Edit</a>
+                    <a asp-action="Detail" asp-controller="Employee" asp-route-id="@employee.EmployeeId" class="btn btn-outline-success btn-sm">Detail</a>
+                    <a asp-action="Delete" asp-controller="Employee" asp-route-id="@employee.EmployeeId" class="btn btn-outline-success btn-sm">Delete</a>
                 </div>
             </div>
         </div>

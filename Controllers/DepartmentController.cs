@@ -1,5 +1,6 @@
 ﻿using Asp.NetProject.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Asp.NetProject.Controllers
 {
@@ -53,7 +54,7 @@ namespace Asp.NetProject.Controllers
                         _dbcontext.SaveChanges();
                         TempData["SMessage"] = "Success";
 
-                        return RedirectToAction("Create", "Department");
+                        return RedirectToAction("Manage", "Store",new {id=storeId});
                     }
                     else
                     {
@@ -180,13 +181,16 @@ namespace Asp.NetProject.Controllers
             try
             {
                 Department dep = _dbcontext.Departments.Find(id);
-                if(dep!=null)
+                int storeId =(int) dep.StoreId;
+                
+                HttpContext.Session.SetInt32("OwnerId", storeId);
+                if (dep!=null)
                 {
                     
                     _dbcontext.Departments.Remove(dep);
                     _dbcontext.SaveChanges();
                     TempData["SMessage"] = "Deleted";
-                    return RedirectToAction("Index", "Department");
+                    return RedirectToAction("Manage", "Store",new {id=storeId});
                 }
             }
             catch(Exception)

@@ -134,22 +134,24 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
-                var existingCategory = _dbContext.ProductCategories.FirstOrDefault(pc => pc.CategoryName == category.CategoryName);
-                if(existingCategory==null)
+              //  var existingCategory = _dbContext.ProductCategories.FirstOrDefault(pc => pc.CategoryName == category.CategoryName);
+               int count = _dbContext.ProductCategories.Count(pc =>pc.CategoryName ==category.CategoryName);
+              
+                if(count<2)
                 {
                     if (category != null)
                     {
                         category.CategoryName = category.CategoryName.ToUpper();
                         category.Description = category.Description.ToUpper();
                         category.CatCode = category.CatCode.ToUpper();
-                        category.CatSerial = ("CAT / " + category.CatSerial);
+                        category.CatSerial = (category.CatSerial);
                         category.CreatedBy = "Owner";
                         category.UpdatedAt = DateTime.Now;
                         _dbContext.ProductCategories.Update(category);
                         _dbContext.SaveChanges();
                         TempData["SMessage"] = "Success";
 
-                        return RedirectToAction("Update", "ProductCategory");
+                        return RedirectToAction("Index", "ProductCategory");
                     }
                 }
                 TempData["EMessage"] = "category already exists";
@@ -180,6 +182,8 @@ namespace Asp.NetProject.Controllers
                     _dbContext.ProductCategories.Remove(category);
                     _dbContext.SaveChanges();
                     TempData["SMessage"] = "Category Deleted Successfully";
+                    return RedirectToAction("Index", "ProductCategory");
+
                 }
                 else
                 {
