@@ -324,7 +324,7 @@ namespace Asp.NetProject.Controllers
                             _dbContext.SaveChanges();
                             TempData["SMessage"] = "Success";
 
-                            return RedirectToAction("Index", "Employee");
+                            return RedirectToAction("Manage", "Store",new {id=storeId});
 
                         }
                         TempData["EMessage"] = "user with this email already exists !";
@@ -366,6 +366,7 @@ namespace Asp.NetProject.Controllers
                     {
                     ViewBag.SMessage = TempData["SMessage"];
                     ViewBag.EMessage = TempData["EMessage"];
+                    ViewBag.StoreId = obj.StoreId;
                     return View(obj);
                     }
 
@@ -396,6 +397,8 @@ namespace Asp.NetProject.Controllers
                 ViewBag.Roles = _dbContext.Roles.ToList();
                 if (obj!=null)
                 {
+                    TempData["storeId"] =(int) obj.StoreId;
+                    ViewBag.StoreId = obj.StoreId;
                     return View(_dbContext.Employees.Find(id));
                 }
                 ViewBag.EMessage = " some error occured please try again lator !";
@@ -414,6 +417,7 @@ namespace Asp.NetProject.Controllers
         [HttpPost]
         public IActionResult Update(Employee obj,string originalImage)
         {
+            int storeId =(int) TempData["storeId"];
 
             try
             {
@@ -441,8 +445,9 @@ namespace Asp.NetProject.Controllers
                     _dbContext.SaveChanges();
                     ViewBag.SMessage = "Success";
                     //return View();
+                    ViewBag.StoreId = obj.StoreId;
                     TempData["SMessage"] = "Data Updated Successfully";
-                    return RedirectToAction("Index", "Employee");
+                    return RedirectToAction("Manage", "Store",new {id=storeId});
 
 
 
@@ -472,12 +477,13 @@ namespace Asp.NetProject.Controllers
             try
             {
                 Employee obj = _dbContext.Employees.Find(id);
+                int storeId =(int) obj.StoreId;
                 if (obj != null)
                 {
                     _dbContext.Employees.Remove(obj);
                     _dbContext.SaveChanges();
                     TempData["SMessage"] = "Employee Deleted ";
-                    return RedirectToAction("Index", "Employee");
+                    return RedirectToAction("Manage", "Store",new {id= storeId });
                 }
                 TempData["SMessage"] = "Some Error Occured Please Try Again Lator !";
 

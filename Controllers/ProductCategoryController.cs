@@ -15,6 +15,8 @@ namespace Asp.NetProject.Controllers
         {
             ViewBag.SMessage = TempData["SMessage"];
             ViewBag.EMessage = TempData["EMessage"];
+            int? StoreId = HttpContext.Session.GetInt32("StoreId");
+            ViewBag.StoreId = StoreId;
             return View(_dbContext.ProductCategories.ToList());
         }
         #endregion List

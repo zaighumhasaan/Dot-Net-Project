@@ -102,16 +102,16 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <a asp-action="Update" asp-route-id="@Model?.ProductId" class="btn btn-outline-success">Edit</a>
+                <a asp-action="Update" asp-route-id="@Model?.ProductId" class="btn btn-outline-info">Edit</a>
             </div>
             <div class="col-sm-6">
-                <a asp-action="Delete" asp-route-id="@Model?.ProductId" class="btn btn-outline-success">Delete</a>
+                <a asp-action="Delete" asp-route-id="@Model?.ProductId" class="btn btn-outline-info">Delete</a>
 
             </div>
         </div>
     </div>
 </div>
-
+<a asp-action="Index" asp-controller="Product" asp-route-id="@ViewBag.DepartmentId" class="btn btn-outline-info">Back</a>
 <style>
 
     #mainContainer{

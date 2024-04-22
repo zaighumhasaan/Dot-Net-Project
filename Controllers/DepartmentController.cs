@@ -22,6 +22,9 @@ namespace Asp.NetProject.Controllers
         {
             ViewBag.SMessage = TempData["SMessage"];
             ViewBag.EMessage = TempData["EMessage"];
+            int? storeId;
+            storeId = HttpContext.Session.GetInt32("StoreId");
+            ViewBag.StoreId = storeId;
             return View();
         }
 
@@ -39,8 +42,10 @@ namespace Asp.NetProject.Controllers
                 }
                 else
                 {
-
-
+                    ViewBag.StoreId = storeId;
+                    string name = obj.DepartmentName;
+                    obj.DepartmentName = name.ToUpper();
+                    
                     Department dep = _dbcontext.Departments.FirstOrDefault(d => d.DepartmentName == obj.DepartmentName);
                     if (dep == null)
                     {
@@ -93,8 +98,11 @@ namespace Asp.NetProject.Controllers
                 Department dep = _dbcontext.Departments.Find(id);
                 if (dep != null)
                 {
-                    int departmentId = dep.DepartmentId;
+                    int? storeId;
+                    storeId = HttpContext.Session.GetInt32("StoreId");
+                    ViewBag.StoreId = storeId;
 
+                    int departmentId = dep.DepartmentId;
                     HttpContext.Session.SetInt32("departmentId", departmentId);
                     return View(dep);
                 }

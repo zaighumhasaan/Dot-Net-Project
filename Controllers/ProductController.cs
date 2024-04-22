@@ -20,6 +20,10 @@ namespace Asp.NetProject.Controllers
         #region List
         public IActionResult Index(int id)
         {
+            
+            int? StoreId = HttpContext.Session.GetInt32("StoreId");
+            ViewBag.StoreId = StoreId;
+            
 
             var department = _dbContext.Departments.FirstOrDefault(d => d.DepartmentId == id);
 
@@ -57,7 +61,7 @@ namespace Asp.NetProject.Controllers
             {
                 int depId = (int)TempData["depId"];
                 int? departmentId = HttpContext.Session.GetInt32("departmentId");
-
+                
                 if (departmentId == null)
                 {
                     departmentId = depId;
@@ -111,6 +115,8 @@ namespace Asp.NetProject.Controllers
                     .Include(p => p.Category) // Include the Category navigation property
                     .Include(p => p.Department) // Include the Department navigation property
                     .FirstOrDefault(p => p.ProductId ==id);
+                TempData["depId"] = product.DepartmentId;
+                ViewBag.DepartmentId = TempData["depId"];
 
                 //Product product = _dbContext.Products.Find(id);
                 if (product != null)
@@ -143,6 +149,7 @@ namespace Asp.NetProject.Controllers
                 if(product!=null)
                 {
                     TempData["depId"] = product.DepartmentId;
+                    ViewBag.DepartmentId = TempData["depId"];
 
                     ViewBag.ListCategories = _dbContext.ProductCategories.ToList();
                     return View(product);

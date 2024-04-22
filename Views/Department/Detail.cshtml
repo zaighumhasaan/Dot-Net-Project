@@ -25,8 +25,8 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CreatedAt)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UpdatedAt)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.UpdatedAt)
@@ -42,3 +42,4 @@
     <a asp-action="Update" asp-route-id="@Model?.DepartmentId" class="btn btn-outline-success"> Edit</a> |
     <a asp-action="Delete" asp-route-id="@Model?.DepartmentId" class="btn btn-outline-success">Delete</a> 
 </div>
+<a asp-action="Manage" asp-controller="Store" asp-route-id="@ViewBag.StoreId" class="btn btn-outline-success btn-sm mt-2">Back</a>
