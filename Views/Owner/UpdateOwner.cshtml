@@ -23,12 +23,12 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="FirstName" class="control-label">First Name</label>
-                <input asp-for="FirstName" class="form-control" required/>
+                <input asp-for="FirstName" class="form-control" required />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="col">
                 <label asp-for="LastName" class="control-label">Last Name</label>
-                <input asp-for="LastName" class="form-control" required/>
+                <input asp-for="LastName" class="form-control" required />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
         </div>
@@ -36,12 +36,12 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="DateOfBirth" class="control-label">Date Of Birth</label>
-                <input asp-for="DateOfBirth" class="form-control" required/>
+                <input asp-for="DateOfBirth" class="form-control" required />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="col">
                 <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" required/>
+                <input asp-for="Gender" class="form-control" required />
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
         </div>
@@ -49,12 +49,12 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" required/>
+                <input asp-for="Email" class="form-control" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="col">
                 <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" required/>
+                <input asp-for="Phone" class="form-control" required />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
         </div>
@@ -62,23 +62,23 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" required/>
+                <input asp-for="Address" class="form-control" required />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="col">
                 <div class="col">
 
-                        <label asp-for="Password" class="control-label">Password</label>
-                        <div class="input-group">
-                            <input type="password" id="password" asp-for="Password" class="form-control" required/>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                    <i id="icon" class="fa fa-eye-slash"></i>
-                                </button>
-                            </div>
+                    <label asp-for="Password" class="control-label">Password</label>
+                    <div class="input-group">
+                        <input type="password" id="password" asp-for="Password" class="form-control" required />
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i id="icon" class="fa fa-eye-slash"></i>
+                            </button>
                         </div>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                  
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+
                 </div>
             </div>
         </div>
@@ -88,13 +88,13 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" required/>
+                <input asp-for="City" class="form-control" required />
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
 
             <div class="col">
                 <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" required/>
+                <input asp-for="Country" class="form-control" required />
                 <span asp-validation-for="Country" class="text-danger"></span>
             </div>
         </div>
@@ -102,12 +102,12 @@
         <div class="form-group row">
             <div class="col">
                 <label asp-for="PostalCode" class="control-label">Postal Code</label>
-                <input asp-for="PostalCode" class="form-control" required/>
+                <input asp-for="PostalCode" class="form-control" required />
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
             <div class="col">
                 <label asp-for="LogoFile" class="control-label">Change Picture</label>
-                <input type="file" asp-for="LogoFile" class="form-control"/>
+                <input type="file" asp-for="LogoFile" class="form-control" />
                 <span asp-validation-for="LogoFile" class="text-danger"></span>
                 @if (!string.IsNullOrEmpty(Model.Image)) // Check if Logo exists
                 {
@@ -120,11 +120,6 @@
 
 
 
-        <div class="form-group">
-
-
-        </div>
-
 
 
 
@@ -134,7 +129,7 @@
     </form>
 
 </div>
-
+<a asp-action="Home" asp-controller="Store" asp-route-id="@Model.OwnerId" class="btn btn-outline-info btn-sm">back</a>
 <style>
     #formBody {
         background-color: azure;

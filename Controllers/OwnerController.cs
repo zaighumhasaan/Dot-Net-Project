@@ -357,6 +357,7 @@ namespace Asp.NetProject.Controllers
                 Owner obj = _dbcontext.Owners.Find(id);
                 if (obj != null)
                 {
+                    TempData["ownerId"] = obj.OwnerId;
                     return View(obj);
                 }
 
@@ -435,6 +436,7 @@ namespace Asp.NetProject.Controllers
                 Owner obj = _dbcontext.Owners.Find(id);
                 if (obj == null)
                 {
+                    ViewBag.OwnerId = TempData["ownerId"];
                     return View("No Record Found");
                 }
                 return View(obj);
