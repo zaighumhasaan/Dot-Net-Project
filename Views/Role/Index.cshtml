@@ -7,11 +7,11 @@
 <h1>Index</h1>
 @if (ViewBag.SMessage != null)
 {
-    <div class="alert alert-success">@ViewBag.SMessage </div>
+    <div id="successMessage" class="alert alert-success">@ViewBag.SMessage </div>
 }
 @if (ViewBag.EMessage != null)
 {
-    <div class="alert alert-danger">@ViewBag.EMessage </div>
+    <div id="errorMessage" class="alert alert-danger">@ViewBag.EMessage </div>
 }
 <p>
     <a asp-action="Create">Create New</a>
@@ -47,3 +47,26 @@
         }
     </tbody>
 </table>
+
+
+@section Scripts {
+
+
+
+
+    <script>
+        // Function to hide success message after 5 seconds
+        window.setTimeout(function () {
+            $("#successMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+
+        // Function to hide error message after 5 seconds
+        window.setTimeout(function () {
+            $("#errorMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+    </script>
+}

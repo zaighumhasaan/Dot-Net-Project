@@ -216,25 +216,39 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
+
+
                 Product prod = _dbContext.Products.Find(id);
-                int departmentId =(int)prod.DepartmentId;
-                if (prod != null)
+                if (prod == null)
                 {
-
-                    _dbContext.Products.Remove(prod);
-                    _dbContext.SaveChanges();
-                    TempData["SMessage"] = "Deleted";
-                    return RedirectToAction("Index", "Product", new { id = departmentId });
-
+                    TempData["SMessage"] = "Product not found";
+                    return RedirectToAction("Index", "Product");
                 }
-            }
-            catch (Exception)
-            {
-                TempData["SMessage"] = "some error occured please try lator !";
-            }
+                int departmentId = (int)prod.DepartmentId;
+                // Check if there are any related sale lines
+                var relatedSaleLines = _dbContext.SaleLines.Where(sl => sl.ProductId == id).ToList();
+                if (relatedSaleLines.Any())
+                {
+                    // Handle related sale lines (e.g., delete them)
+                    _dbContext.SaleLines.RemoveRange(relatedSaleLines);
+                }
 
-            return View();
+                _dbContext.Products.Remove(prod);
+                _dbContext.SaveChanges();
+
+                TempData["SMessage"] = "Product deleted successfully";
+                return RedirectToAction("Index", "Product", new { id = departmentId });
+            }
+            catch (Exception ex)
+            {
+                TempData["SMessage"] = "An error occurred while deleting the product. Please try again later.";
+                // Log the exception for debugging purposes
+                // logger.LogError(ex, "An error occurred while deleting the product with ID {ProductId}", id);
+                return RedirectToAction("Index", "Product");
+            }
         }
+
+
 
 
         #endregion Delete

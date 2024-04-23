@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Create";
     IList<ProductCategory> Listcategories = ViewBag.ListCategories;
-    SelectList AllCategories = new SelectList(Listcategories, "CategoryId", "CategoryName");
+    <!--    SelectList AllCategories = new SelectList(Listcategories, "CategoryId", "CategoryName");-->
+    SelectList AllCategories = Listcategories != null ? new SelectList(Listcategories, "CategoryId", "CategoryName") : null;
+
 
 }
 
@@ -11,101 +13,119 @@
 
 @if (ViewBag.SMessage != null)
 {
-<div class="alert alert-success ">@ViewBag.SMessage</div>
+    <div id="successMessage" class="alert alert-success ">@ViewBag.SMessage</div>
 }
 
 @if (ViewBag.EMessage != null)
 {
-    <div class="alert alert-warning">@ViewBag.EMessage</div>
+    <div id="errorMessage" class="alert alert-warning">@ViewBag.EMessage</div>
 }
 <hr />
 <div id="formBody">
 
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group row">
-                <div class="col">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" required />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="col">
-                    <label asp-for="Formula" class="control-label"></label>
-                    <input asp-for="Formula" class="form-control" />
-                    <span asp-validation-for="Formula" class="text-danger"></span>
-                </div>
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-
-            <div class="form-group row">
-                <div class="col">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="col">
-                    <label asp-for="Price" class="control-label">Sale Price</label>
-                    <input asp-for="Price" class="form-control" required />
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                </div>
+            <div class="col">
+                <label asp-for="Formula" class="control-label"></label>
+                <input asp-for="Formula" class="form-control" />
+                <span asp-validation-for="Formula" class="text-danger"></span>
             </div>
+        </div>
 
-            <div class="form-group row">
-                <div class="col">
-                    <label asp-for="MfgDate" class="control-label"></label>
-                    <input type="date" asp-for="MfgDate" class="form-control" />
-                    <span asp-validation-for="MfgDate" class="text-danger"></span>
-                </div>
-                <div class="col">
-                    <label asp-for="ExpDate" class="control-label"></label>
-                    <input type="date" asp-for="ExpDate" class="form-control" />
-                    <span asp-validation-for="ExpDate" class="text-danger"></span>
-                </div>
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-
-            <div class="form-group row">
-                <div class="col">
-                    <label asp-for="StockQuantity" class="control-label"></label>
-                    <input asp-for="StockQuantity" class="form-control" required />
-                    <span asp-validation-for="StockQuantity" class="text-danger"></span>
-                </div>
-                <div class="col">
-                    <label asp-for="ImageFile" class="control-label"></label>
-                    <input type="file" asp-for="ImageFile" class="form-control" />
-                    <span asp-validation-for="ImageFile" class="text-danger"></span>
-                </div>
+            <div class="col">
+                <label asp-for="Price" class="control-label">Sale Price</label>
+                <input asp-for="Price" class="form-control" required />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
+        </div>
 
-
-            <div class="form-group row">
-                <div class="col">
-                    @Html.DropDownListFor(model => model.CategoryId, AllCategories, "Choose a category", new { @class = "form-control inout-sm" })
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
-                </div>
-                <div class="col">
-                    <label asp-for="PurchasePrice" class="control-label">Purchase Price</label>
-                    <input asp-for="PurchasePrice" class="form-control" />
-                    <span asp-validation-for="PurchasePrice" class="text-danger"></span>
-                </div>
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="MfgDate" class="control-label"></label>
+                <input type="date" asp-for="MfgDate" class="form-control" />
+                <span asp-validation-for="MfgDate" class="text-danger"></span>
             </div>
-
-
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="col">
+                <label asp-for="ExpDate" class="control-label"></label>
+                <input type="date" asp-for="ExpDate" class="form-control" />
+                <span asp-validation-for="ExpDate" class="text-danger"></span>
             </div>
-        </form>
-    
+        </div>
+
+        <div class="form-group row">
+            <div class="col">
+                <label asp-for="StockQuantity" class="control-label"></label>
+                <input asp-for="StockQuantity" class="form-control" required />
+                <span asp-validation-for="StockQuantity" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input type="file" asp-for="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col">
+                @Html.DropDownListFor(model => model.CategoryId, AllCategories, "Choose a category", new { @class = "form-control inout-sm" })
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label asp-for="PurchasePrice" class="control-label">Purchase Price</label>
+                <input asp-for="PurchasePrice" class="form-control" />
+                <span asp-validation-for="PurchasePrice" class="text-danger"></span>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+
 </div>
 
 <style>
 
-    #formBody{
-        background-color:azure;
-        border-block:groove;
+    #formBody {
+        background-color: azure;
+        border-block: groove;
     }
 </style>
 
 @section Scripts {
+
+    <script>
+        // Function to hide success message after 5 seconds
+        window.setTimeout(function () {
+            $("#successMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+
+        // Function to hide error message after 5 seconds
+        window.setTimeout(function () {
+            $("#errorMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+    </script>
+
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

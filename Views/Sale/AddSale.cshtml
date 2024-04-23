@@ -94,6 +94,7 @@ else if (ViewBag.EMessage != null)
 
 
 @section Scripts{
+
     <script>
         $(document).on('change', ".qty,ProductId", function () {
             /*    $(".qty, .price,.totalprice").change(function () {*/
@@ -186,6 +187,22 @@ else if (ViewBag.EMessage != null)
             $("#saleform").submit();
             console.log(FinalSale);
         })
+
+            // Function to hide success message after 5 seconds
+            window.setTimeout(function () {
+                $("#successMessage").fadeTo(100, 0).slideUp(100, function () {
+                    $(this).remove();
+                });
+            }, 1000);
+
+        // Function to hide error message after 5 seconds
+        window.setTimeout(function () {
+            $("#errorMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+    
+
 
     </script>
 

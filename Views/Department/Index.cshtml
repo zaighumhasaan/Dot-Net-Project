@@ -4,13 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-@if (ViewBag.SMessage != null)
+
+@if (ViewBag.SMeesage != null)
 {
-    <div class="alert alert-success">@ViewBag.SMessage</div>
+    <div class=" row">
+        <div id="successMessage" class="alert alert-success col-4">@ViewBag.SMeesage</div>
+    </div>
 }
+
 @if (ViewBag.EMessage != null)
 {
-    <div class="alert alert-danger">@ViewBag.EMessage</div>
+    <div class="row">
+        <div id="errorMessage" class="alert alert-primary col-4">@ViewBag.EMessage</div>
+    </div>
 }
 <p>
     <a asp-action="Create">Create New</a>
@@ -52,7 +58,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
-               @* <td>@Html.DisplayFor(modelItem => item.StoreId) </td>*@
+                @* <td>@Html.DisplayFor(modelItem => item.StoreId) </td>*@
                 <td>
                     <a asp-action="Update" asp-route-id="@item.DepartmentId">Edit</a> |
                     <a asp-action="Detail" asp-route-id="@item.DepartmentId">Details</a> |
@@ -62,3 +68,21 @@
         }
     </tbody>
 </table>
+
+
+@section Scripts {
+    <script>
+        // Function to hide success message after 5 seconds
+        window.setTimeout(function () {
+            $("#successMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+        // Function to hide error message after 5 seconds
+        window.setTimeout(function () {
+            $("#errorMessage").fadeTo(100, 0).slideUp(100, function () {
+                $(this).remove();
+            });
+        }, 1000);
+    </script>
+}

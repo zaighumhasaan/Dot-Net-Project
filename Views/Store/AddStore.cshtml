@@ -7,12 +7,12 @@
 <hr />
 @if (ViewBag.SMessage != null)
 {
-    <div class="alert alert-success ">@ViewBag.SMessage</div>
+    <div id="successMessage" class="alert alert-success ">@ViewBag.SMessage</div>
 }
 
 @if (ViewBag.EMessage != null)
 {
-    <div class="alert alert-warning">@ViewBag.EMessage</div>
+    <div id="errorMessage" class="alert alert-warning">@ViewBag.EMessage</div>
 }
 <div id="formBody">
 
@@ -110,26 +110,44 @@
         background-color: azure;
         border: groove;
     }
+
     .form-control:hover {
         background-color: rgb(225, 235, 228);
     }
+
     #submit {
         height: 50px;
         width: 200px;
         margin: 0 auto;
         display: block;
-        font-weight:900;
+        font-weight: 900;
     }
 
     .pageTitle {
         font-weight: 800;
-        text-align:center;
+        text-align: center;
     }
 </style>
-   
+
 
 <div>
     <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Back</a>
 </div>
 
+
+<script>
+  // Function to hide success message after 5 seconds
+  window.setTimeout(function () {
+      $("#successMessage").fadeTo(100, 0).slideUp(100, function () {
+          $(this).remove();
+      });
+  }, 1000);
+
+  // Function to hide error message after 5 seconds
+  window.setTimeout(function () {
+      $("#errorMessage").fadeTo(100, 0).slideUp(100, function () {
+          $(this).remove();
+      });
+  }, 1000);
+</script>
 

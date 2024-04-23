@@ -480,6 +480,16 @@ namespace Asp.NetProject.Controllers
                 int storeId =(int) obj.StoreId;
                 if (obj != null)
                 {
+                    var relatedSales = _dbContext.Sales.Where(s => s.EmployeeId == id).ToList();
+                    if (relatedSales.Any())
+                    {
+                        // Handle related sales (e.g., delete them or update EmployeeID)
+                        _dbContext.Sales.RemoveRange(relatedSales);
+                        // Alternatively, you can update related sales to remove the reference to the employee
+                        // Example: foreach (var sale in relatedSales) { sale.EmployeeId = null; }
+                    }
+
+
                     _dbContext.Employees.Remove(obj);
                     _dbContext.SaveChanges();
                     TempData["SMessage"] = "Employee Deleted ";

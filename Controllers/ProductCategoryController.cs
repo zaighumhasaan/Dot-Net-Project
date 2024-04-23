@@ -181,6 +181,14 @@ namespace Asp.NetProject.Controllers
                 var category = _dbContext.ProductCategories.Find(id);
                 if (category != null)
                 {
+                    // Check if there are any related products
+                    var relatedProducts = _dbContext.Products.Where(p => p.CategoryId == id).ToList();
+                    if (relatedProducts.Any())
+                    {
+                        // Handle related products (e.g., delete them)
+                        _dbContext.Products.RemoveRange(relatedProducts);
+                    }
+
                     _dbContext.ProductCategories.Remove(category);
                     _dbContext.SaveChanges();
                     TempData["SMessage"] = "Category Deleted Successfully";

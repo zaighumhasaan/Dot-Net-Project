@@ -114,9 +114,47 @@ namespace Asp.NetProject.Controllers
         #endregion Ajax 
 
 
+        #region Sale Detail
+        public ActionResult Detail(int id)
+        {
+            //var sale = _dbContext.Sales.Include(s => s.SaleLines).FirstOrDefault(s => s.SaleId == id);
+            var sale = _dbContext.Sales
+    .Include(s => s.SaleLines)
+    .ThenInclude(sl => sl.Product) // Include the Product navigation property
+    .FirstOrDefault(s => s.SaleId == id);
+
+            if (sale == null)
+            {
+                return View("Not Found");
+            }
+
+            var viewModel = new SaleDetailViewModel
+            {
+                SaleId = sale.SaleId,
+                SaleDate = (DateTime)sale.CreatedAt,
+                TotalPrice = sale.TotalAmount,
+                SaleLines = sale.SaleLines.Select(saleLine => new SaleLine
+                {
+                    SaleLineId = saleLine.SaleLineId,
+                    Product = saleLine.Product,
+                    Quantity = saleLine.Quantity,
+                    UnitPrice = saleLine.UnitPrice,
+                    TotalPrice = saleLine.Quantity * saleLine.UnitPrice
+                }).ToList()
+            };
+
+
+            return View(viewModel);
+        }
+
+        #endregion Sale Detail
         public IActionResult Index()
         {
-            return View();
+
+
+
+
+            return View(_dbContext.Sales.ToList());
         }
     }
 }

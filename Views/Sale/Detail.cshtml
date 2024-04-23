@@ -1,0 +1,48 @@
+﻿@model Asp.NetProject.Models.SaleDetailViewModel
+
+@{
+    ViewData["Title"] = "Sale Details";
+}
+
+<div>
+    <h2 hidden>Sale ID: @Model.SaleId</h2>
+    <p>Sale Date: @Model.SaleDate.ToShortDateString()</p>
+    <p>Total Price: @Model.TotalPrice</p>
+</div>
+@if (Model.SaleLines.Any())
+{
+    <h1 class="text-center">Sale Summary</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Exp Date</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var saleLine in Model.SaleLines)
+            {
+                <tr>
+                    <td>@(saleLine.Product != null ? saleLine.Product.Name : "N/A")</td>
+                    <td>@saleLine.Quantity</td>
+                    <td>@saleLine.UnitPrice</td>
+                    <td>@(saleLine.Product != null ? saleLine.Product.ExpDate : "N/A")</td>
+                    <td>@saleLine.TotalPrice</td>
+                </tr>
+            }
+            <tr>
+                <td class="text-right bg-success "><strong>Grand Total:</strong></td>
+                <td class="text-right bg-success">@Model.SaleLines.Sum(s => s.TotalPrice)</td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No sale lines found.</p>
+}
+
+<a asp-action="Index">Back to Sales List</a>
