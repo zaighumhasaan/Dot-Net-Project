@@ -1,0 +1,71 @@
+﻿@model Asp.NetProject.Models.Sale
+
+@{
+    ViewData["Title"] = "Update";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.SaleId)
+
+    <h3>Sale Record</h3>
+    <div class="row">
+        <div class="col-md-4">
+            <label>Product Detail</label>
+        </div>
+        <div class="col-md-2">
+            <label>Product Qty</label>
+        </div>
+        <div class="col-md-2">
+            <label>Product Price</label>
+        </div>
+        <div class="col-md-2">
+            <label>Total Price</label>
+        </div>
+    </div>
+
+    @foreach (var saleLine in Model.SaleLines.ToList())
+    {
+        <div class="row">
+            <div class="col-md-4">
+                @Html.HiddenFor(model => saleLine.SaleLineId)
+                @Html.DropDownListFor(model => saleLine.ProductId, ViewBag.ListProducts as SelectList, "Choose an Item", new { @class = "form-control product-dropdown" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => saleLine.Quantity, new { htmlAttributes = new { @class = "form-control quantity" } })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(model => saleLine.UnitPrice, new { htmlAttributes = new { @class = "form-control unit-price", @readonly = "readonly" } })
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control total-price" readonly />
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        <input type="submit" value="Update" class="btn btn-primary" />
+        <strong>Grand Price: <span id="grand-total">@Model.SaleLines.Sum(s => s.Quantity * s.UnitPrice)</span></strong>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Calculate total price dynamically
+            $(".quantity, .unit-price").change(function () {
+                var quantity = parseFloat($(this).closest(".row").find(".quantity").val());
+                var unitPrice = parseFloat($(this).closest(".row").find(".unit-price").val());
+                var totalPrice = quantity * unitPrice;
+                $(this).closest(".row").find(".total-price").val(totalPrice.toFixed(2));
+
+                // Update grand total
+                var grandTotal = 0;
+                $(".total-price").each(function () {
+                    grandTotal += parseFloat($(this).val());
+                });
+                $("#grand-total").text(grandTotal.toFixed(2));
+            });
+        });
+    </script>
+}

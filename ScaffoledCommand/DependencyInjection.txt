@@ -1,8 +1,4 @@
-﻿
- Check by Today ==>  Error While Deleteing product -> might be issue of database constraints
-
-
-// Scaffold Command
+﻿// Scaffold Command
 Scaffold-DbContext "Server=THETATEAM12\SQLEXPRESS01;Database=POS;Trusted_Connection=True; User ID=sa; Password=admin;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force
 
 

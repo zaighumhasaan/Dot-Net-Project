@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Asp.NetProject.Controllers
 {
@@ -148,13 +149,122 @@ namespace Asp.NetProject.Controllers
         }
 
         #endregion Sale Detail
+
+        #region Sale List
         public IActionResult Index()
         {
-
-
-
-
             return View(_dbContext.Sales.ToList());
         }
+        #endregion Sale List
+
+
+        #region Sale Update
+
+        [HttpGet]
+        public ActionResult Update(int id)
+        {
+            var sale = _dbContext.Sales
+                .Include(s => s.SaleLines)
+                .FirstOrDefault(s => s.SaleId == id);
+
+            if (sale == null)
+            {
+                // If the sale does not exist, return a not found view
+                return View("NotFound");
+            }
+            ViewBag.ListProducts = new SelectList(_dbContext.Products, "ProductId", "Name");
+
+            return View(sale);
+        }
+
+        [HttpPost]
+        public ActionResult Update(Sale sale)
+        {
+            if (!ModelState.IsValid)
+            {
+                // If the model state is not valid, return the view with validation errors
+                return View(sale);
+            }
+
+            var existingSale = _dbContext.Sales
+                .Include(s => s.SaleLines)
+                .FirstOrDefault(s => s.SaleId == sale.SaleId);
+
+            if (existingSale == null)
+            {
+                // If the sale does not exist, return a not found view
+                return View("NotFound");
+            }
+
+            // Update sale details
+            existingSale.UpdatedAt = DateTime.Now;
+
+            // Update sale lines
+            foreach (var saleLine in sale.SaleLines)
+            {
+                var existingSaleLine = existingSale.SaleLines.FirstOrDefault(sl => sl.SaleLineId == saleLine.SaleLineId);
+                if (existingSaleLine != null)
+                {
+                    // Update existing sale line
+                    existingSaleLine.Quantity = saleLine.Quantity;
+                    existingSaleLine.UnitPrice = saleLine.UnitPrice;
+                    // Update other properties as needed
+                }
+                else
+                {
+                    // Add new sale line
+                    existingSale.SaleLines.Add(saleLine);
+                }
+            }
+
+            // Remove deleted sale lines
+            foreach (var existingSaleLine in existingSale.SaleLines.ToList())
+            {
+                if (!sale.SaleLines.Any(sl => sl.SaleLineId == existingSaleLine.SaleLineId))
+                {
+                    existingSale.SaleLines.Remove(existingSaleLine);
+                }
+            }
+
+            // Save changes to the database
+            _dbContext.SaveChanges();
+
+            // Redirect to the details page or any other appropriate action
+            return RedirectToAction("Detail", new { id = sale.SaleId });
+        }
+
+
+        #endregion Sale Update
+
+        #region Sale Delete
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                if(id==null)
+                {
+                    return View("No Record Found");
+                }
+                var sale = _dbContext.Sales.Find(id);
+                if(sale==null)
+                {
+                    return View("No Record Found");
+                }
+                _dbContext.Sales.Remove(sale);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index", "Sale");
+
+            }
+            catch(Exception)
+            {
+
+            }
+            return View();
+        }
+
+        #endregion Sale Delete
+
     }
 }
