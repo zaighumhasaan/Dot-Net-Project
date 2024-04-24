@@ -72,16 +72,23 @@
         </div>
 
         <div class="form-group row">
-            <div class="col">
-
+            <!---->
+            <div class="col-md-4">
+                <label asp-for="ImageFile" class="control-label">Change Picture</label>
                 <input type="file" asp-for="ImageFile" class="form-control" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
-                @if (!string.IsNullOrEmpty(Model.ImagePath)) // Check if Logo exists
+                <input type="hidden" name="originalImage" value="@Model.ImagePath" />
+
+
+            </div>
+            <div class="col-md-2">
+                @if (!string.IsNullOrEmpty(Model.ImagePath)) // Check if Image exists
                 {
                     <img src="~/images/@Model.ImagePath" style="width: 110px; height:100px" />
                 }
-                <input type="hidden" name="originalImage" value="@Model.ImagePath" />
             </div>
+            <!---->
+           
             <div class="col">
                 @Html.DropDownListFor(model => model.CategoryId, AllCategories, "Choose a category", new { @class = "form-control inout-sm" })
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
@@ -95,11 +102,11 @@
             <input asp-for="PurchasePrice" class="form-control" />
             <span asp-validation-for="PurchasePrice" class="text-danger"></span>
         </div>
-        @*            <div class="form-group">
+                 <div class="form-group">
                 <label asp-for="DepartmentId" class="control-label"></label>
-                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+                <input asp-for="DepartmentId" class="form-control" asp-items="@ViewBag.DepartmentId">
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
-            </div>*@
+            </div>
         <div class="form-group text-center">
             <input type="submit" value="Save" class="btn btn-outline-info" />
         </div>

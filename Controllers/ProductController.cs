@@ -169,7 +169,7 @@ namespace Asp.NetProject.Controllers
 
              if(product !=null)
                 {
-                    product.DepartmentId =(int) TempData["depId"];
+                   // product.DepartmentId =(int) TempData["depId"];
                     if (product.ImageFile == null)
                     {
                         product.ImagePath = originalImage;
