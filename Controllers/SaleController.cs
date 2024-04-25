@@ -153,7 +153,13 @@ namespace Asp.NetProject.Controllers
         #region Sale List
         public IActionResult Index()
         {
-            return View(_dbContext.Sales.ToList());
+            var salesWithEmployees = _dbContext.Sales
+           .Include(s => s.Employee)
+           .ToList();
+
+            return View(salesWithEmployees);
+
+
         }
         #endregion Sale List
 
