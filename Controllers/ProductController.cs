@@ -34,6 +34,7 @@ namespace Asp.NetProject.Controllers
 
             // Retrieve products belonging to the department
             TempData["depId"] = id;
+            ViewBag.DepartmentId = id; 
             var products = _dbContext.Products.Where(p => p.DepartmentId == department.DepartmentId).ToList();
 
             ViewBag.SMessage = TempData["SMessage"];
@@ -59,10 +60,10 @@ namespace Asp.NetProject.Controllers
         {
             try
             {
-                int depId = (int)TempData["depId"];
+                int depId = (int) TempData["depId"];
                 int? departmentId = HttpContext.Session.GetInt32("departmentId");
                 
-                if (departmentId == null)
+                if(departmentId==null)
                 {
                     departmentId = depId;
                 }
@@ -283,8 +284,72 @@ namespace Asp.NetProject.Controllers
 
 
         //Pending
-     
+
         #endregion Generate Barcode
+
+
+        #region Exp
+        public IActionResult ExpiredProduct(int id)
+        {
+            try
+            {
+
+                DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
+
+                var expiredProducts = _dbContext.Products
+                    .Where(p => p.ExpDate.HasValue && p.ExpDate.Value < currentDate && p.DepartmentId == id)
+                    .ToList();
+                ViewBag.departmentId = id;
+
+                    return View(expiredProducts);
+
+                /*  var expiringProducts = _dbContext.Products
+                     .Where(p => p.ExpDate.HasValue && p.ExpDate.Value < currentDate.AddDays(10) && p.DepartmentId == departmentId)
+                     .ToList();
+                */
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+
+
+            return View();
+        }
+
+        public IActionResult ExpiringProduct(int id)
+        {
+            try
+            {
+
+                if(id == 0)
+                {
+                    return View("some error occured please try again lator !");
+                }
+                ViewBag.departmentId = id;
+
+                var currentDate = DateOnly.FromDateTime(DateTime.Now);
+                var expirationThreshold = currentDate.AddDays(10);
+
+                var expiringProducts = _dbContext.Products
+                    .Where(p => p.ExpDate.HasValue && p.ExpDate.Value > currentDate && p.ExpDate.Value <= expirationThreshold && p.DepartmentId == id)
+                    .ToList();
+
+                return View(expiringProducts);
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+
+
+            return View();
+        }
+        #endregion Exp
 
 
     }

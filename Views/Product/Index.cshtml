@@ -4,9 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-
-
-
 <h1 class="text-center">Products List</h1>
 
 @if (ViewBag.SMessage != null)
@@ -18,9 +15,20 @@
     <div id="errorMessage" class="alert alert-dabger">@ViewBag.EMessage</div>
 }
 
-<p>
-    <a asp-action="Create" class="btn btn-outline-info">Create New Product</a>
-</p>
+<div class="row">
+    <div class="col-md-3">
+        <a asp-action="Create" class="btn btn-outline-info">Create New Product</a>
+    </div>
+    <div class="col-md-3">
+        <a asp-action="ExpiredProduct" asp-route-id="@ViewBag.DepartmentId" class="btn btn-outline-danger ml-1">Expired Products</a>
+    </div>
+    <div class="col-md-3">
+        <a asp-action="ExpiringProduct" asp-route-id="@ViewBag.DepartmentId" class="btn btn-outline-danger ml-1">Expiring Products</a>
+    </div>
+
+</div>
+
+
 <table class="table">
     <thead>
         <tr>

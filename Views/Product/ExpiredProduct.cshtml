@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Asp.NetProject.Models.Product>
+
+@{
+    ViewData["Title"] = "ExpiredProduct";
+}
+
+<h1 class="text-center">Expired Product</h1>
+
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Formula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                <strong>
+
+                    Sale Price
+                </strong>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MfgDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StockQuantity)
+            </th>
+
+            <th>
+                <strong>Image</strong>
+            </th>
+
+            <th>
+                <strong>Purchase Price</strong>
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Formula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MfgDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StockQuantity)
+                    </td>
+
+                    <td>
+                        <img src="/images/@Html.DisplayFor(modelItem => item.ImagePath)" style="width:100px; height:100px" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PurchasePrice)
+                    </td>
+
+                </tr>
+            }@if (Model == null)
+            {
+                <tr>
+                    <td colspan="16">No expired products found.</td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+    <a asp-action="Index" asp-route-id="@ViewBag.departmentId" class="btn btn-outline-info">Back</a>
